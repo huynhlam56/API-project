@@ -14,7 +14,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        defaultValue: Sequelize.literal('nextval(\'spots_id_seq\'::regclass)')
       },
       ownerId: {
         type: Sequelize.INTEGER,
