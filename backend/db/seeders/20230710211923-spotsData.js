@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 const { Spot } = require('../models');
-const { User } = require('../models')
+
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -62,7 +62,6 @@ module.exports = {
       price: 145.32
     },
     {
-      ownerId: 5,
       address: '123 Lake Way',
       city: 'Salt Lake City',
       State: 'Utah',
