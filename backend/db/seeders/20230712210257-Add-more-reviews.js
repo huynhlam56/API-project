@@ -43,13 +43,13 @@ module.exports = {
           stars: 4
         },
         {
-          spotId: 6,
+          spotId: 2,
           userId: 1,
           review: 'Ehhhhhh',
           stars: 3
         },
         {
-          spotId: 6,
+          spotId: 5,
           userId: 5,
           review: 'it was nice!',
           stars: 4
