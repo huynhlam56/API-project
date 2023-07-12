@@ -235,6 +235,12 @@ router.post('/:id/images', requireAuth, async(req, res) => {
    include: [{ model: SpotImage }]
   })
 
+  if(!spot) {
+    return res.json({
+      "message": "Spot couldn't be found"
+    })
+  }
+  
   if(ownerId === spot.ownerId) {
     const image = await SpotImage.create({
       spotId,
@@ -248,10 +254,12 @@ router.post('/:id/images', requireAuth, async(req, res) => {
     }
     return res.json(newImage)
   } else {
-    res.status(404).json({
-      "message": "Spot couldn't be found"
+    res.status(403).json({
+      "message": "Not authorized"
     })
   }
+
+
 })
 
 module.exports = router;
