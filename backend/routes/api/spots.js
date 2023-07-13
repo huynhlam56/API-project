@@ -232,10 +232,11 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
   if(!spotId) {
     res.status(404).json({ "message": "Spot couldn't be found" })
   };
+ 
   if(existingReview) {
     return res.status(500).json({  "message": "User already has a review for this spot"})
   }
-  if(userId) {
+  if(userId === existingReview.userId) {
     const reviews = await Review.create({
       userId,
       spotId,
@@ -403,4 +404,5 @@ router.delete('/:id', requireAuth, async(req, res) => {
     })
   }
 })
+
 module.exports = router;
