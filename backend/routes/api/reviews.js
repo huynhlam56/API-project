@@ -7,7 +7,7 @@ const sequelize = require('sequelize')
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { up } = require('../../db/seeders/20230711001210-reviewsData');
+
 
 const validateReviews = [
   check('review')
