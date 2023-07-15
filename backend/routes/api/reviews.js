@@ -35,7 +35,6 @@ router.get('/current', requireAuth, async(req, res) => {
     {
       model: Spot,
       attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
-      ////////////////////  ADD PREVIEWIMAGE HERE ////////////////////////////////////////////
     },
     {
       model: ReviewImage,
@@ -44,7 +43,42 @@ router.get('/current', requireAuth, async(req, res) => {
   ],
   attributes: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt']
 })
-  return res.json({ Reviews: userReviews });
+  let reviews = []
+  for(let i = 0; i < userReviews.length; i++) {
+    let previewImage = await SpotImage.findOne({
+      where: {
+        spotId: userReviews[i].spotId,
+        preview: true
+      }
+    })
+    let review = {
+      id: userReviews[i].id,
+      userId: userReviews[i].userId,
+      spotId: userReviews[i].spotId,
+      review: userReviews[i].review,
+      stars: userReviews[i].stars,
+      createdAt: userReviews[i].createdAt,
+      updatedAt: userReviews[i].updatedAt,
+      User: userReviews[i].User,
+      Spot: {
+        id: userReviews[i].spotId,
+        ownerId: userReviews[i].Spot.ownerId,
+        address: userReviews[i].Spot.address,
+        city: userReviews[i].Spot.city,
+        state: userReviews[i].Spot.state,
+        country: userReviews[i].Spot.country,
+        lat: userReviews[i].Spot.lat,
+        lng: userReviews[i].Spot.lng,
+        name: userReviews[i].Spot.name,
+        price: userReviews[i].Spot.price,
+        previewImage: previewImage ? previewImage.url : 'No preview'
+    },
+      ReviewImages: userReviews[i].ReviewImages
+    }
+    reviews.push(review)
+  }
+
+  return res.json({ Reviews: reviews });
 })
 
 // Add an Image to a Review based on the Review's Id

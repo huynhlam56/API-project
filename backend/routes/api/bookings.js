@@ -21,10 +21,43 @@ router.get('/current', requireAuth, async(req, res) => {
       {
         model: Spot,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']
-      }, /////// ADD PREVIEWIMAGE HERE //////////////////
+      },
     ]
   })
-  return res.json({ Bookings: bookings });
+  let bookingsArr = []
+  for(let i = 0; i < bookings.length; i++) {
+    let booking = bookings[i]
+    let previewImage = await SpotImage.findOne({
+      where: {
+        spotId: bookings[i].spotId,
+        preview: true
+      }
+    })
+    let bookingObj = {
+      id: booking.id,
+      spotId: booking.spotId,
+      Spot: {
+        id: booking.spotId,
+        ownerId: booking.Spot.ownerId,
+        address: booking.Spot.address,
+        city: booking.Spot.city,
+        state: booking.Spot.state,
+        country: booking.Spot.country,
+        lat: booking.Spot.lat,
+        lng: booking.Spot.lng,
+        name: booking.Spot.name,
+        price: booking.Spot.price,
+        previewImage: previewImage ? previewImage.url : 'No preview'
+      },
+      userId: booking.userId,
+      startDate: booking.startDate,
+      endDate: booking.endDate,
+      createdAt: booking.createdAt,
+      updatedAt: booking.updatedAt
+    }
+    bookingsArr.push(bookingObj)
+  }
+  return res.json({ Bookings: bookingsArr });
 })
 
 
