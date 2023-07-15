@@ -40,8 +40,8 @@ const validateSpots = [
     .withMessage('Description is required'),
     check('price')
     .exists({checkFalsy: true})
-    .isFloat()
-    .withMessage('Price per day is required'),
+    .isFloat({max: 999.99})
+    .withMessage('Price per day is required and has a max value of $999.99'),
     handleValidationErrors
   ];
 
@@ -458,7 +458,9 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
       userId: userId,
       spotId: spotId,
       review: reviews.review,
-      stars: reviews.stars
+      stars: reviews.stars,
+      createdAt: reviews.createdAt,
+      updatedAt: reviews.updatedAt
     }
     return res.status(201).json({ review: newReview })
   }
