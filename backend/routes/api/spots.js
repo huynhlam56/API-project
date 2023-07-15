@@ -4,6 +4,7 @@ const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models');
 const sequelize = require('sequelize')
+const { Op } = require('sequelize')
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -55,48 +56,144 @@ const validateSpots = [
     handleValidationErrors
   ]
 
+  const validateQuery = [
+    check('page')
+    .exists({ checkFalsy: true })
+    .isInt({min: 0, max: 10})
+    .withMessage("Page must be greater than or equal to 1"),
+    check('size')
+    .exists({ checkFalsy: true })
+    .isInt({min: 1, max: 20})
+    .withMessage("Size must be greater than or equal to 1"),
+    check('maxLat')
+    .exists({checkFalsy: true})
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+    check('minLat')
+    .exists({checkFalsy: true})
+    .isDecimal()
+    .optional()
+    .withMessage("Minimum latitude is invalid"),
+    check('maxLng')
+    .exists({checkFalsy: true})
+    .isDecimal()
+    .optional()
+    .withMessage("Maximum longitude is invalid"),
+    check('minLong')
+    .exists({checkFalsy: true})
+    .isDecimal()
+    .optional()
+    .withMessage("Minimum longitude is invalid"),
+    check('minPrice')
+    .exists({checkFalsy: true})
+    .isDecimal({min: 0})
+    .optional()
+    .withMessage("Minimum price must be greater than or equal to 0"),
+    check('maxPrice')
+    .exists({checkFalsy: true})
+    .isDecimal({min: 0})
+    .optional()
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  ]
+
 // get all spots
-router.get('', async (req, res) => {
-  let spots = await Spot.findAll()
+router.get('', validateQuery, async (req, res) => {
+  let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+  if (!page) page = 1;
+  if (!size) size = 20;
+
+  const filter = {};
+
+  if (minLat && maxLat) {
+    filter.lat = {
+      [Op.between]: [(minLat), (maxLat)],
+    };
+  } else if (minLat) {
+    filter.lat = {
+      [Op.gte]: (minLat),
+    };
+  } else if (maxLat) {
+    filter.lat = {
+      [Op.lte]: (maxLat),
+    };
+  }
+
+  if (minLng && maxLng) {
+    filter.lng = {
+      [Op.between]: [(minLng), (maxLng)],
+    };
+  } else if (minLng) {
+    filter.lng = {
+      [Op.gte]: (minLng),
+    };
+  } else if (maxLng) {
+    filter.lng = {
+      [Op.lte]: (maxLng),
+    };
+  }
+
+  if (minPrice && maxPrice) {
+    filter.price = {
+      [Op.between]: [(minPrice), (maxPrice)],
+    };
+  } else if (minPrice) {
+    filter.price = {
+      [Op.gte]: (minPrice),
+    };
+  } else if (maxPrice) {
+    filter.price = {
+      [Op.lte]: (maxPrice),
+    };
+  }
+
+  let spots = await Spot.findAll({
+    where: filter,
+    limit: size,
+    offset: (page - 1) * size,
+  });
+
   let newSpots = []
+
   for (let i = 0; i < spots.length; i++) {
     let previewImage = await SpotImage.findOne({
-    where: {
-      spotId: spots[i].id,
-      preview: true,
+      where: {
+        spotId: spots[i].id,
+        preview: true,
+      }
+    });
+    let avgRating = await Review.findOne({
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
+      ],
+      where: {
+        spotId: spots[i].id
+      },
+    })
+    console.log()
+    let newSpot = {
+      id: spots[i].id,
+      ownerId: spots[i].ownerId,
+      address: spots[i].address,
+      city: spots[i].city,
+      state: spots[i].state,
+      country: spots[i].country,
+      lat: spots[i].lat,
+      lng: spots[i].lng,
+      name: spots[i].name,
+      description: spots[i].description,
+      price: spots[i].price,
+      createdAt: spots[i].createdAt,
+      updatedAt: spots[i].updatedAt,
+      avgRating: avgRating?.dataValues.avgRating ? avgRating.dataValues.avgRating : 'No reviews',
+      previewImage: previewImage ? previewImage.url : 'No preview image'
     }
-  });
-  let avgRating = await Review.findOne({
-    attributes: [
-      [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
-    ],
-    where: {
-      spotId: spots[i].id
-    },
-  })
-  let newSpot = {
-    id: spots[i].id,
-    ownerId: spots[i].ownerId,
-    address: spots[i].address,
-    city: spots[i].city,
-    state: spots[i].state,
-    country: spots[i].country,
-    lat: spots[i].lat,
-    lng: spots[i].lng,
-    name: spots[i].name,
-    description: spots[i].description,
-    price: spots[i].price,
-    createdAt: spots[i].createdAt,
-    updatedAt: spots[i].updatedAt,
-    avgRating: avgRating ? avgRating.dataValues.avgRating : 'No reviews',
-    previewImage: previewImage ? previewImage.url : 'No preview image'
+    newSpots.push(newSpot)
   }
-  newSpots.push(newSpot)
-}
-
-return res.json({
-  Spots: newSpots
-})
+  return res.json({
+    Spots: newSpots,
+    page: parseInt(page),
+    size: parseInt(size)
+  })
 });
 
 // get all spots of current user
@@ -517,5 +614,6 @@ router.delete('/:id', requireAuth, async(req, res) => {
     })
   }
 })
+
 
 module.exports = router;
