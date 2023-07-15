@@ -40,8 +40,8 @@ const validateSpots = [
     .withMessage('Description is required'),
     check('price')
     .exists({checkFalsy: true})
-    .isFloat()
-    .withMessage('Price per day is required'),
+    .isFloat({max: 999.99})
+    .withMessage('Price per day is required and has a max value of $999.99'),
     handleValidationErrors
   ];
 
