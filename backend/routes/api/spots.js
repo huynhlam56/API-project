@@ -458,7 +458,9 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
       userId: userId,
       spotId: spotId,
       review: reviews.review,
-      stars: reviews.stars
+      stars: reviews.stars,
+      createdAt: reviews.createdAt,
+      updatedAt: reviews.updatedAt
     }
     return res.status(201).json({ review: newReview })
   }
