@@ -440,7 +440,10 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
     }
   });
 
-  if(!spotId) {
+  console.log("CONDITION" + !spotId)
+
+  const spot = await Spot.findByPk(spotId)
+  if(!spot) {
     res.status(404).json({ "message": "Spot couldn't be found" })
   };
 
