@@ -60,13 +60,16 @@ const validateSpots = [
     check('page')
     .exists({ checkFalsy: true })
     .isInt({min: 0, max: 10})
+    .optional()
     .withMessage("Page must be greater than or equal to 1"),
     check('size')
     .exists({ checkFalsy: true })
     .isInt({min: 1, max: 20})
+    .optional()
     .withMessage("Size must be greater than or equal to 1"),
     check('maxLat')
     .exists({checkFalsy: true})
+    .optional()
     .isDecimal()
     .withMessage("Maximum latitude is invalid"),
     check('minLat')
@@ -79,7 +82,7 @@ const validateSpots = [
     .isDecimal()
     .optional()
     .withMessage("Maximum longitude is invalid"),
-    check('minLong')
+    check('minLng')
     .exists({checkFalsy: true})
     .isDecimal()
     .optional()
@@ -94,6 +97,7 @@ const validateSpots = [
     .isDecimal({min: 0})
     .optional()
     .withMessage("Maximum price must be greater than or equal to 0"),
+    handleValidationErrors
   ]
 
 // get all spots
@@ -356,6 +360,8 @@ router.post('/:id/bookings', requireAuth, async(req,res) => {
 
 router.get('/:id/reviews', async(req,res) => {
   const spotId = req.params.id
+  const spot = await Spot.findByPk(spotId)
+
   const reviews = await Review.findAll({
     where: { spotId },
     include: [
@@ -369,7 +375,9 @@ router.get('/:id/reviews', async(req,res) => {
       }
     ]
   })
-    res.status(200).json({Reviews: reviews})
+
+  if(!reviews || reviews.length === 0) return res.status(404).json({"message": "Spot couldn't be found"})
+  res.status(200).json({Reviews: reviews})
 })
 
 //get details for a Spot from an id
@@ -440,8 +448,6 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
     }
   });
 
-  console.log("CONDITION" + !spotId)
-
   const spot = await Spot.findByPk(spotId)
   if(!spot) {
     res.status(404).json({ "message": "Spot couldn't be found" })
@@ -465,7 +471,7 @@ router.post('/:id/reviews', requireAuth, validateReviews, async(req,res) => {
       createdAt: reviews.createdAt,
       updatedAt: reviews.updatedAt
     }
-    return res.status(201).json({ review: newReview })
+    return res.status(201).json( newReview )
   }
 })
 
@@ -503,7 +509,7 @@ router.post('', requireAuth, validateSpots, async (req,res) => {
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt
     }
-    return res.status(201).json({ spot: newSpot })
+    return res.status(201).json( newSpot )
   }else {
     res.status(400),
     res.json({
