@@ -71,7 +71,6 @@ router.put('/:id', requireAuth, async(req, res) => {
 
 
   if(!booking) return res.status(404).json({"message": "Booking couldn't be found"})
-console.log(booking.userId, userId)
   if(booking.userId !== userId) return res.status(403).json({"message": "Forbidden"})
 
   const currentDate = new Date();
