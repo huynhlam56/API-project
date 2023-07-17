@@ -64,7 +64,7 @@ router.get('/current', requireAuth, async(req, res) => {
 // Edit a booking
 router.put('/:id', requireAuth, async(req, res) => {
   const userId = req.user.id
-  const spotId = req.params.id
+  const bookingId = req.params.id
   let { startDate, endDate } = req.body;
 
   const booking = await Booking.findByPk(req.params.id);
@@ -93,16 +93,18 @@ router.put('/:id', requireAuth, async(req, res) => {
   })
   for (let i = 0; i < bookings.length; i++) {
     let booking = bookings[i]
-    let bookingStartDate = new Date(booking.startDate)
-    let bookingEndDate = new Date(booking.endDate)
-    if( (new Date(startDate) >= bookingStartDate && new Date(startDate) <= bookingEndDate || (new Date(endDate) >= bookingStartDate && new Date(endDate) <= bookingEndDate ))) {
-      return res.status(403).json({
-        "message": "Sorry, this spot is already booked for the specified dates",
-        "errors": {
-          "startDate": "Start date conflicts with an existing booking",
-          "endDate": "End date conflicts with an existing booking"
-        }
-      });
+    if(bookingId != booking.id) {
+      let bookingStartDate = new Date(booking.startDate)
+      let bookingEndDate = new Date(booking.endDate)
+      if( (new Date(startDate) >= bookingStartDate && new Date(startDate) <= bookingEndDate || (new Date(endDate) >= bookingStartDate && new Date(endDate) <= bookingEndDate ))) {
+        return res.status(403).json({
+          "message": "Sorry, this spot is already booked for the specified dates",
+          "errors": {
+            "startDate": "Start date conflicts with an existing booking",
+            "endDate": "End date conflicts with an existing booking"
+          }
+        });
+      }
     }
   }
   booking.startDate = startDate;
