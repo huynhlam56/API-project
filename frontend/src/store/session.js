@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_SESSION = 'session/loadSession';
 const REMOVE_SESSION = 'session/removeSession';
+const SET_USER = 'session/setUser'
 
 export const loadSession = (user) => {
     return {
@@ -17,12 +18,43 @@ export const removeSession = () => {
     }
 };
 
-export const restoreUser = () => async dispatch=> {
+// LOG OUT USER
+
+export const logout = () => async dispatch => {
+    const response = await csrfFetch('/api/session', {
+        method: 'DELETE'
+    });
+    dispatch(removeSession());
+    return response
+}
+
+// SIGNUP A USER
+export const signup = (user) => async (dispatch) => {
+    const { username, firstName, lastName, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(loadSession(data.user));
+    return response;
+  };
+
+  // RESTORE USER
+export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
     const data = await response.json();
     dispatch(loadSession(data.user))
     return response
 }
+
+//LOG IN USER
 export const logInUser = (user) => async dispatch => {
     const { credential, password } = user
     const response = await csrfFetch('/api/session', {
@@ -32,21 +64,21 @@ export const logInUser = (user) => async dispatch => {
             password
         })
     })
-
     if(response.ok) {
-        const user = await response.json();
-        dispatch(loadSession(user))
+        const data = await response.json();
+        dispatch(loadSession(data.user))
+        return response
     }
 }
 
-const intialState = {user: null, isLoading: true}
+const intialState = {user: null}
 
 const sessionReducer = (state = intialState, action) => {
     switch (action.type) {
         case LOAD_SESSION:
             return { ...state, user: {...action.user} };
         case REMOVE_SESSION:
-            return {...state, user: null}
+            return {...state, user: null};
         default:
           return state;
       }
