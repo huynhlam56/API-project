@@ -11,14 +11,19 @@ export const loadSession = (user) => {
 };
 
 
-export const removeSession = (user) => {
+export const removeSession = () => {
     return {
-        type: REMOVE_SESSION,
-        user
+        type: REMOVE_SESSION
     }
 };
 
-export const getSessionUser = (user) => async dispatch => {
+export const restoreUser = () => async dispatch=> {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(loadSession(data.user))
+    return response
+}
+export const logInUser = (user) => async dispatch => {
     const { credential, password } = user
     const response = await csrfFetch('/api/session', {
         method: 'POST',
@@ -32,7 +37,6 @@ export const getSessionUser = (user) => async dispatch => {
         const user = await response.json();
         dispatch(loadSession(user))
     }
-
 }
 
 const intialState = {user: null, isLoading: true}
