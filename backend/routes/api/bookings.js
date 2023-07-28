@@ -122,7 +122,7 @@ router.delete('/:id', requireAuth, async(req, res) => {
   const booking = await Booking.findByPk(bookingId, {include: Spot})
 
   if(!booking) return res.status(404).json({"message": "Booking couldn't be found"})
-console.log(userId, booking.userId, booking)
+
   if(booking.userId !== userId && booking.Spot.ownerId !== userId) {
     return res.status(403).json({
       "message": "forbidden"
