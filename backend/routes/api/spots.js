@@ -173,7 +173,7 @@ router.get('', validateQuery, async (req, res) => {
         spotId: spots[i].id
       },
     })
-    console.log()
+
     let newSpot = {
       id: spots[i].id,
       ownerId: spots[i].ownerId,
