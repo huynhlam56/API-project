@@ -2,7 +2,6 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_SESSION = 'session/loadSession';
 const REMOVE_SESSION = 'session/removeSession';
-const SET_USER = 'session/setUser'
 
 export const loadSession = (user) => {
     return {
