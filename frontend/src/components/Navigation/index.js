@@ -6,6 +6,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -33,14 +34,18 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">
+    <header className="header">
+      <ul>
+        <li>
+          <NavLink exact to="/">
+          {/* <FontAwesomeIcon icon="fa-solid fa-house-night" /> */}
           Home
-        </NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+          </NavLink>
+          <span className="app-name">Stay Inns</span>
+        </li>
+        {isLoaded && sessionLinks}
+        </ul>
+    </header>
   );
 }
 
