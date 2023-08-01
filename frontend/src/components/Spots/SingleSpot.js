@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getSpotDetailThunk } from "../../store/spots";
 
 
-export const spotDetail = () => {
+export const SpotDetail = () => {
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots.singleSpot)
 
@@ -23,7 +23,13 @@ export const spotDetail = () => {
 
     return (
         <div>
-            <h1>{singleSpot.name}</h1>
+            <h1>{spot.name}</h1>
+            <p>{spot.avgRating}</p>
+            <p>{spot.city} {spot.state}, {spot.country}</p>
+            <span>{spot.previewImages}</span>
+            <p>Hosted by: Huynh Lam</p>
+            <p>{spot.description}</p>
+            <div>*ADD CALLOUT INFO BOX HERE</div>
         </div>
     )
 }
