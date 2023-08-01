@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf"
 
 const LOAD_SPOTS = 'spots/loadSpots'
 const CREATE_SPOT = 'spots/createSpot'
+const SPOT_DETAIL = 'spots/spotDetail'
 
 export const loadSpots = (spots) => {
   return {
@@ -14,6 +15,21 @@ export const createSpotAction = (spot) => ({
   type: CREATE_SPOT,
   spot
 })
+
+export const getSpotDetail = spot => ({
+  type: SPOT_DETAIL,
+  spot
+})
+
+// GET SINGLE SPOT
+export const getSpotDetailThunk = (spotId) => async dispatch => {
+  const response = await csrfFetch(`/api/spots/${spotId}`);
+  if (response.ok) {
+    const spot = await response.json()
+    dispatch(getSpotDetail(spot))
+  }
+}
+
 
 // CREATE A NEW SPOT
 export const createSpot = (spots) => async dispatch => {
@@ -41,8 +57,15 @@ export const fetchAllSpots = () => async dispatch => {
   }
 }
 
+// function normalized(arr) {
+//   const normalizedObj = {}
+//   arr.forEach(obj => normalizedObj[obj.id] = obj)
+//   return normalizedObj
+// }
+
 const intialState = {
   allSpots: {}, // normalized kvps
+  singleSpot: {}
 }
 
 const spotsReducer = (state = intialState, action) => {
@@ -53,6 +76,12 @@ const spotsReducer = (state = intialState, action) => {
         spotsState[spot.id] = spot
       })
       return {allSpots: spotsState}
+    case SPOT_DETAIL:
+      const spotState = {};
+      action.spots.Spots.forEach((spot) => {
+        spotState[spot.id] = spot
+      })
+      return {singleSpot: spotState}
     case CREATE_SPOT:
       return {...state, [action.spot.id]: action.spot }
       default:
