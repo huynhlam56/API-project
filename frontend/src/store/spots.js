@@ -4,6 +4,7 @@ const LOAD_SPOTS = 'spots/loadSpots'
 const CREATE_SPOT = 'spots/createSpot'
 const SPOT_DETAIL = 'spots/spotDetail'
 const REMOVE_SPOT = 'spots/removeSpot'
+const EDIT_SPOT = 'spots/editSpot'
 
 
 export const loadSpots = (spots) => {
@@ -28,15 +29,37 @@ export const removeSpotAction = (spotId) => ({
   spotId
 })
 
+export const editSpotAction = (spot) => ({
+  type: EDIT_SPOT,
+  spot
+})
+
+//EDIT SPOT
+export const editSpotThunk = (spot) => async dispatch => {
+  const response = await csrfFetch(`/api/spots/${spot.id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'Application/json'},
+    body: JSON.stringify(spot)
+  })
+  if(response.ok) {
+    const editedSpot = await response.json()
+    dispatch(editSpotAction(editedSpot))
+    return editedSpot
+  } else {
+    const errors = await response.json()
+    return errors
+  }
+}
+
 // REMOVE SPOT
 export const removeSpotThunk = (spotId) => async dispatch => {
-  const response = await csrfFetch(`api/spots/${spotId}`, {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'DELETE',
   })
 
   if(response.ok) {
     dispatch(removeSpotAction(spotId))
-  } 
+  }
 }
 
 // GET SINGLE SPOT
@@ -51,7 +74,7 @@ export const getSpotDetailThunk = (spotId) => async dispatch => {
 
 // CREATE A NEW SPOT
 export const createSpot = (spots) => async dispatch => {
-  const response = await csrfFetch('api/spots', {
+  const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(spots)
@@ -99,8 +122,14 @@ const spotsReducer = (state = intialState, action) => {
       return {...state, singleSpot}
     case CREATE_SPOT:
       return {...state, [action.spot.id]: action.spot }
-      default:
-        return state;
+    case EDIT_SPOT:
+      return {...state, [action.spot.id]: action.spot}
+    case REMOVE_SPOT:
+      const newState = {...state}
+      delete newState[action.spotId]
+      return newState
+    default:
+      return state;
   }
 }
 

@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import { createSpot } from "../../store/spots";
+import { createSpot, editSpotThunk } from "../../store/spots";
 import { useState } from "react";
 import { nanoid } from 'nanoid'
 
-const SpotForm = () => {
+const SpotForm = ({spot, formType}) => {
   const dispatch = useDispatch()
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
