@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
-import { createSpot, editSpotThunk } from "../../store/spots";
+import { createSpot } from "../../store/spots";
 import { useState } from "react";
 import { nanoid } from 'nanoid'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const SpotForm = ({spot, formType}) => {
   const dispatch = useDispatch()
@@ -14,13 +15,16 @@ const SpotForm = ({spot, formType}) => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-  const [errors, setErrors] = useState('')
+  const [counter, setCounter] = useState(7)
+  const [errors, setErrors] = useState({})
+  const history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     setErrors({});
     const newSpot = {
-      id: nanoid(),
+      id: counter,
       address,
       city,
       state,
@@ -32,7 +36,17 @@ const SpotForm = ({spot, formType}) => {
       price
     }
     dispatch(createSpot(newSpot))
+    .then (history.push(`/spots/${newSpot.id}`))
+    .then(setCounter((prevCounter => prevCounter + 1)))
+    .catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
   }
+
+console.log(errors)
   return (
     <div className="inputBox">
       <h1>Create a New Spot</h1>
@@ -46,42 +60,54 @@ const SpotForm = ({spot, formType}) => {
             value={address}
             placeholder="address"
             name='address'
+            required
           />
+         {errors.address && <p>*{errors.address}*</p>}
           <input
             type='text'
             onChange={(e) => setCity(e.target.value)}
             value={city}
             placeholder="city"
             name='city'
+            required
           />
+           {errors.city && <p>*{errors.city}*</p>}
           <input
             type='text'
             onChange={(e) => setState(e.target.value)}
             value={state}
             placeholder="state"
             name='state'
+            required
           />
+           {errors.state && <p>*{errors.state}*</p>}
           <input
             type='text'
             onChange={(e) => setCountry(e.target.value)}
             value={country}
             placeholder="country"
             name='country'
+            required
           />
+           {errors.country && <p>*{errors.country}*</p>}
           <input
             type='text'
             onChange={(e) => setLat(e.target.value)}
             value={lat}
             placeholder="latitude"
             name='latitude'
+            required
           />
+           {errors.lat && <p>*{errors.lat}*</p>}
           <input
             type='text'
             onChange={(e) => setLng(e.target.value)}
             value={lng}
             placeholder="longitude"
             name='longitude'
+            required
           />
+           {errors.lng && <p>*{errors.lng}*</p>}
         </section>
         <section>
           <h2>Describe your place to guests</h2>
@@ -92,6 +118,7 @@ const SpotForm = ({spot, formType}) => {
             value={description}
             placeholder="Please write at least 30 characters."
             name='description'
+            required
           />
         </section>
         <section>
@@ -103,7 +130,9 @@ const SpotForm = ({spot, formType}) => {
             value={name}
             placeholder="Name of your spot"
             name='name'
+            required
           />
+          {errors.name && <p>*{errors.name}*</p>}
         </section>
         <section>
           <h2>Set a base price for your spot</h2>
@@ -114,7 +143,9 @@ const SpotForm = ({spot, formType}) => {
             value={price}
             placeholder="Price per night (USD)"
             name='price'
+            required
           />
+          {errors.price && <p>*{errors.price}*</p>}
         </section>
         <section>
           <h2>Liven up your spot with photos</h2>
@@ -135,8 +166,12 @@ const SpotForm = ({spot, formType}) => {
             type='text'
             placeholder="Image URL"
           />
+          <input
+            type='text'
+            placeholder="Image URL"
+          />
         </section>
-      <button type='submit' value='Create Spot' >Submit</button>
+      <button type='submit'>Create Spot</button>
       </form>
     </div>
   )

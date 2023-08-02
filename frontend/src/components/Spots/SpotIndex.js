@@ -19,15 +19,15 @@ const SpotIndex = () => {
     <div>
       <ul>
         {Object.values(spots.allSpots).map((spot) => (
-          <Link to={`/spots/${spot.id}`} key={spot.id}>
-            <li>
+          <a href={`/spots/${spot.id}`}>
+            <li key={spot.id}>
               <img className="preview-images" src={spot.previewImage !== "No preview image" ? spot.previewImage : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"}/>
               <h3>{spot.name}</h3>
               <p>{spot.city}, {spot.state}</p>
-              <p>Rating: {spot.avgRating ? spot.avgRating : 'New'} *ADD STAR EMOJI HERE*</p>
+              <p>Rating: {spot.avgRating ? spot.avgRating : 'New'}★</p>
               <p>${spot.price} night</p>
             </li>
-          </Link>
+          </a>
         ))}
       </ul>
     </div>

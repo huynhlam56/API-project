@@ -19,9 +19,9 @@ export const createSpotAction = (spot) => ({
   spot
 })
 
-export const getSpotDetail = spotId => ({
+export const receiveSpot = spot => ({
   type: SPOT_DETAIL,
-  spotId
+  spot
 })
 
 export const removeSpotAction = (spotId) => ({
@@ -67,13 +67,15 @@ export const getSpotDetailThunk = (spotId) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   if (response.ok) {
     const spot = await response.json()
-    dispatch(getSpotDetail(spot))
+    console.log(spot, response)
+    dispatch(receiveSpot(spot))
   }
 }
 
 
 // CREATE A NEW SPOT
 export const createSpot = (spots) => async dispatch => {
+  console.log('YES')
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: {"Content-Type": "application/json"},

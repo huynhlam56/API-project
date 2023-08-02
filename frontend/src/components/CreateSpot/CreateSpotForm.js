@@ -16,7 +16,7 @@ const CreateSpotForm = () => {
   return (
     <SpotForm
       spot={spot}
-      forType=' Create Spot'
+      formType=' Create Spot'
     />
   )
 }

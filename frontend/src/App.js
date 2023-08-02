@@ -5,7 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotIndex from  "./components/Spots/SpotIndex";
 import SpotForm from "./components/CreateSpot/SpotForm";
-import { SpotDetail } from "./components/Spots/SingleSpot";
+import { SpotDetail } from "./components/Spots/SpotDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,8 +20,8 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path='/' component={SpotIndex} />
+          <Route path='/spots/:spotId' component={SpotDetail} />
           <Route path='/spots' component={SpotForm} />
-          <Route exact path='spots/:spotId' component={SpotDetail} />
           <Route>
             <h1>Page Not Found</h1>
           </Route>

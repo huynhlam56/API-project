@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import { useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const history = useHistory()
   const ulRef = useRef();
 
   const openMenu = () => {
@@ -33,6 +35,9 @@ function ProfileButton({ user }) {
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
+  const handleClickNavigateToForm = () => {
+    history.push('/spots')
+  }
   return (
     <>
       <button onClick={openMenu}>
@@ -42,6 +47,9 @@ function ProfileButton({ user }) {
         <li>{user.username}</li>
         <li>{user.firstName} {user.lastName}</li>
         <li>{user.email}</li>
+        <li>
+          <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
+        </li>
         <li>
           <button onClick={logout}>Log Out</button>
         </li>
