@@ -1,5 +1,26 @@
-
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
 
 .profile-dropdown.hidden {
     display: none;
+}
+
+#login-sign-up-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#home-login-singup-buttons-container {
+display: flex;
+list-style: none;
+flex-direction: row;
+align-items: baseline;
+}
+
+.active {
+    color: black;
 }

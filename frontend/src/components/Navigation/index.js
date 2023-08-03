@@ -7,20 +7,28 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+
+
+
+
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const spot = useSelector((state) => state.spots ? state.spots : {})
+
 
   let sessionLinks;
   if (sessionUser && Object.keys(sessionUser).length !== 0) {
     sessionLinks = (
       <li>
-        <ProfileButton user={sessionUser} />
+        <ProfileButton user={sessionUser} spot={spot}/>
       </li>
     );
+
   } else {
     sessionLinks = (
-      <li>
+      <li id='login-sign-up-buttons'>
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
@@ -35,13 +43,17 @@ function Navigation({ isLoaded }) {
 
   return (
     <header className="header">
-      <ul>
+    <a href='/'>
+      <h1>
+        <FontAwesomeIcon icon="fa-solid fa-house-night" size="2xl" style={{color: "#eb6437",}} />
+        Stay Inns
+      </h1>
+    </a>
+      <ul id='home-login-singup-buttons-container'>
         <li>
           <NavLink exact to="/">
-          {/* <FontAwesomeIcon icon="fa-solid fa-house-night" /> */}
-          Home
+            <FontAwesomeIcon icon={faHome} />
           </NavLink>
-          <span className="app-name">Stay Inns</span>
         </li>
         {isLoaded && sessionLinks}
         </ul>

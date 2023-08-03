@@ -37,7 +37,7 @@ function LoginFormModal() {
         setErrors(data.errors)
       }
     })
-}
+  }
   return (
     <>
       <h1>Log In</h1>
@@ -65,7 +65,7 @@ function LoginFormModal() {
         )}
         <button type="submit">Log In</button>
       </form>
-      <button onClick={handleLogInDemo}>Log in as Demo User</button>
+      <button id='log-in-as-user-button' onClick={handleLogInDemo}>Log in as Demo User</button>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { createSpot } from "../../store/spots";
+import { updateSpot } from "../../store/spots";
 import { useState } from "react";
-import { nanoid } from 'nanoid'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const SpotForm = ({spot, formType}) => {
@@ -21,8 +21,8 @@ const SpotForm = ({spot, formType}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     setErrors({});
+
     const newSpot = {
       id: counter,
       address,
@@ -35,21 +35,27 @@ const SpotForm = ({spot, formType}) => {
       description,
       price
     }
-    dispatch(createSpot(newSpot))
-    .then (history.push(`/spots/${newSpot.id}`))
-    .then(setCounter((prevCounter => prevCounter + 1)))
-    .catch(async (res) => {
-      const data = await res.json();
-      if (data && data.errors) {
-        setErrors(data.errors);
-      }
-    });
+    if(formType === 'Update') {
+      newSpot.id = spot.id
+      dispatch(updateSpot(newSpot))
+    } else if (formType === 'Create') {
+      newSpot.id = counter
+      dispatch(createSpot(newSpot))
+      .then(setCounter((prevCounter => prevCounter + 1)))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+    }
+    history.push(`/spots/${newSpot.id}`)
   }
 
 console.log(errors)
   return (
     <div className="inputBox">
-      <h1>Create a New Spot</h1>
+      <h1>{formType}</h1>
       <form onSubmit={handleSubmit}>
         <section>
         <h2>Where's your place located?</h2>
@@ -171,7 +177,7 @@ console.log(errors)
             placeholder="Image URL"
           />
         </section>
-      <button type='submit'>Create Spot</button>
+      <button type='submit'>{formType}</button>
       </form>
     </div>
   )

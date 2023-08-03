@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux"
 
 
 import SpotForm from "../CreateSpot/SpotForm"
-import { SpotDetail } from "../Spots/SingleSpot";
+import { SpotDetail } from "../Spots/SpotDetail";
 
-const EditSpot = () => {
+const UpdateSpotForm = () => {
 	const { spotId } = useParams()
 	const spot = useSelector((state) => (state.spots ? state.spots : {}))
+	console.log(spot, 'SPOT: IN UPDATE SPOT FORM')
 
 	const dispatch = useDispatch()
 
@@ -18,5 +19,16 @@ const EditSpot = () => {
 
 	if(!spot) return null
 
-
+	return (
+		Object.keys(spot).length > 1 && (
+			<>
+				<SpotForm
+					spot={spot}
+					formType='Update Spot'
+				/>
+			</>
+		)
+	)
 }
+
+export default UpdateSpotForm;

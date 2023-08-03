@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { useHistory } from "react-router-dom";
 
-function ProfileButton({ user }) {
+function ProfileButton({ user, spot }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const history = useHistory()
@@ -38,6 +38,10 @@ function ProfileButton({ user }) {
   const handleClickNavigateToForm = () => {
     history.push('/spots')
   }
+
+  const handleClickNavigateToUpdateForm = () => {
+    history.push(`/spots/${spot.id}`)
+  }
   return (
     <>
       <button onClick={openMenu}>
@@ -49,6 +53,9 @@ function ProfileButton({ user }) {
         <li>{user.email}</li>
         <li>
           <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
+        </li>
+        <li>
+          <button onClick={handleClickNavigateToUpdateForm} className="manage-spots-button">Manage Spots</button>
         </li>
         <li>
           <button onClick={logout}>Log Out</button>

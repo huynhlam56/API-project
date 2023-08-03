@@ -20,3 +20,5 @@ const CreateSpotForm = () => {
     />
   )
 }
+
+export default CreateSpotForm
