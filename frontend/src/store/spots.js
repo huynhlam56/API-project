@@ -9,12 +9,10 @@ const LOAD_USER_SPOTS = 'spots/loadUseSpots'
 
 
 
-export const loadSpots = (spots) => {
-  return {
-    type: LOAD_SPOTS,
-    spots
-  }
-}
+export const loadSpots = (spots) => ({
+  type: LOAD_SPOTS,
+  spots
+})
 
 export const createSpotAction = (spot) => ({
   type: CREATE_SPOT,

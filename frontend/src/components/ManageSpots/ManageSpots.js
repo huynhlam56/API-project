@@ -26,7 +26,7 @@ const ManageSpots = () => {
     return (
         <div>
             <h2>Manage Spots</h2>
-            {userSpots && userSpots.Spots.map((spot) => (
+            {userSpots && userSpots.Spots?.map((spot) => (
                 <li key={spot.id} >
                     <img src={spot.previewImage} />
                     <h1>{spot.name}</h1>

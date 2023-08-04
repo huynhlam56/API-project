@@ -4,32 +4,36 @@ const LOAD_REVIEWS = 'reviews/loadReviews'
 const CREATE_REVIEW = 'reviews/createReview'
 const DELETE_REVIEW = 'reviews/deleteReview'
 
-const loadReviewsAction = (spotId) => {
+const loadReviewsAction = (spotId, reviews) => ({
   type: LOAD_REVIEWS,
-  reviews,
-  spotId
-}
+  payload: {spotId, reviews}
+})
 
-const createReviewAction = (review) => {
+const createReviewAction = (review) => ({
   type: CREATE_REVIEW,
   review
-}
+})
 
-const deleteReviewAction = (reviewId) => {
+const deleteReviewAction = (reviewId) => ({
   type: DELETE_REVIEW,
   reviewId
-}
+})
 
 // GET ALL REVIEWS
 export const loadAllReviewsThunk = (spotId) => async dispatch => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
-  if(response.ok) {
-    const reviews = await response.json()
-    dispatch(loadReviewsAction(reviews))
-    return reviews
+    if(response.ok) {
+      const reviews = await response.json()
+      dispatch(loadReviewsAction(spotId, reviews))
+      return reviews
+    }
+  } catch(error) {
+    return
   }
 }
+
 // CREATE NEW REVIEW
 export const createReviewThunk = (spotId, review) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
@@ -66,9 +70,18 @@ const initialState = {
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REVIEWS:
+      const reviewsState = {}
+      action.payload.reviews.Reviews.forEach((review) => {
+        reviewsState[review.id] = review
+      })
+      console.log(action.payload)
       const { spotId, reviews } = action.payload
-      return { ...state, [spotId]: reviews}
-    case CREATE_REVIEW:
-      return {...state, [spotId]: [...(state[spotId] || []), review]}
+      return {spot: reviewsState}
+    // case CREATE_REVIEW:
+    //   return {...state, [spotId]: [...(state[spotId] || []), review]}
+    default:
+      return state
   }
 }
+
+export default reviewsReducer;
