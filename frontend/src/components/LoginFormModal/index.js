@@ -28,7 +28,7 @@ function LoginFormModal() {
     e.preventDefault()
     const demoCred = 'demo@user.io'
     const demoPassword = 'password'
-    console.log('STRING')
+
     return dispatch(sessionActions.logInUser({credential: demoCred, password: demoPassword}))
     .then(closeModal)
     .catch(async (res) => {

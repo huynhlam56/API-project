@@ -45,7 +45,6 @@ function Navigation({ isLoaded }) {
     <header className="header">
     <a href='/'>
       <h1>
-        <FontAwesomeIcon icon="fa-solid fa-house-night" size="2xl" style={{color: "#eb6437",}} />
         Stay Inns
       </h1>
     </a>

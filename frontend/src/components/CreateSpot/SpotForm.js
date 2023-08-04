@@ -1,30 +1,29 @@
 import { useDispatch } from "react-redux";
-import { createSpot } from "../../store/spots";
-import { updateSpot } from "../../store/spots";
+import { createSpot, updateSpot } from "../../store/spots";
 import { useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 
 const SpotForm = ({spot, formType}) => {
   const dispatch = useDispatch()
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('')
-  const [country, setCountry] = useState('')
-  const [lat, setLat] = useState('')
-  const [lng, setLng] = useState('')
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState('')
-  const [counter, setCounter] = useState(7)
+  const [address, setAddress] = useState(spot?.address)
+  const [city, setCity] = useState(spot?.city);
+  const [state, setState] = useState(spot?.state)
+  const [country, setCountry] = useState(spot?.country)
+  const [lat, setLat] = useState(spot?.lat)
+  const [lng, setLng] = useState(spot?.lng)
+  const [name, setName] = useState(spot?.name)
+  const [description, setDescription] = useState(spot?.description)
+  const [price, setPrice] = useState(spot?.price)
+  const [counter, setCounter] = useState(spot?.id)
   const [errors, setErrors] = useState({})
   const history = useHistory()
 
   const handleSubmit = async (e) => {
+    console.log('form submitted')
     e.preventDefault()
     setErrors({});
 
-    const newSpot = {
-      id: counter,
+    let newSpot = {
       address,
       city,
       state,
@@ -35,24 +34,35 @@ const SpotForm = ({spot, formType}) => {
       description,
       price
     }
-    if(formType === 'Update') {
-      newSpot.id = spot.id
-      dispatch(updateSpot(newSpot))
-    } else if (formType === 'Create') {
-      newSpot.id = counter
-      dispatch(createSpot(newSpot))
-      .then(setCounter((prevCounter => prevCounter + 1)))
-      .catch(async (res) => {
-        const data = await res.json();
+
+    if (formType === 'Update Spot') {
+      try {
+        newSpot.id = spot.id;
+        console.log(newSpot.id)
+        await dispatch(updateSpot(newSpot));
+        history.push(`/spots/${newSpot.id}`);
+      } catch (error) {
+        const data = await error.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }
-      });
+      }
+    } else if (formType === 'Create Spot') {
+      try {
+        const createdSpot = await dispatch(createSpot(newSpot));
+        if(createdSpot) {
+          history.push(`/spots/${createdSpot.id}`);
+        }
+      } catch (error) {
+        const data = await error.json();
+        console.log(data)
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      }
     }
-    history.push(`/spots/${newSpot.id}`)
   }
 
-console.log(errors)
   return (
     <div className="inputBox">
       <h1>{formType}</h1>
@@ -177,7 +187,7 @@ console.log(errors)
             placeholder="Image URL"
           />
         </section>
-      <button type='submit'>{formType}</button>
+      <button onSubmit={handleSubmit} type='submit'>{formType}</button>
       </form>
     </div>
   )

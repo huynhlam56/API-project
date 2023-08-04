@@ -5,6 +5,8 @@ const CREATE_SPOT = 'spots/createSpot'
 const SPOT_DETAIL = 'spots/spotDetail'
 const REMOVE_SPOT = 'spots/removeSpot'
 const UPDATE_SPOT = 'spots/updateSpot'
+const LOAD_USER_SPOTS = 'spots/loadUseSpots'
+
 
 
 export const loadSpots = (spots) => {
@@ -34,6 +36,19 @@ export const updateSpotAction = (spot) => ({
   spot
 })
 
+export const loadUsersSpotsAction = (spots) => ({
+  type: LOAD_USER_SPOTS,
+  spots
+})
+
+// GET USER SPOT
+export const loadUserSpotsThunk = () => async dispatch => {
+  const response = await csrfFetch(`/api/spots/current`)
+  if(response.ok) {
+    const spots = await response.json()
+    dispatch(loadUsersSpotsAction(spots))
+  }
+}
 //EDIT SPOT
 export const updateSpot = (spot) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spot.id}`, {
@@ -42,11 +57,13 @@ export const updateSpot = (spot) => async dispatch => {
     body: JSON.stringify(spot)
   })
   if(response.ok) {
+    console.log(response, 'RESPONSE FROM API')
     const updateSpot = await response.json()
     dispatch(updateSpotAction(updateSpot))
     return updateSpot
   } else {
     const errors = await response.json()
+    console.log(errors, 'ERRORS FROM THUNK')
     return errors
   }
 }
@@ -67,26 +84,23 @@ export const getSpotDetailThunk = (spotId) => async dispatch => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   if (response.ok) {
     const spot = await response.json()
-    console.log(spot, response)
+
     dispatch(receiveSpot(spot))
   }
 }
 
 
 // CREATE A NEW SPOT
-export const createSpot = (spots) => async dispatch => {
-  console.log('YES')
+export const createSpot = (spot) => async dispatch => {
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(spots)
+    body: JSON.stringify(spot)
   })
   if(response.ok) {
-    const spot = await response.json()
-    dispatch(createSpotAction(spot))
-  } else {
-    // ADD ERROR HERE LATER
-    console.log('SPOT WAS NOT CREATED')
+    const data = await response.json()
+    dispatch(createSpotAction(data))
+    return data
   }
 }
 
@@ -100,15 +114,11 @@ export const fetchAllSpots = () => async dispatch => {
   }
 }
 
-// function normalized(arr) {
-//   const normalizedObj = {}
-//   arr.forEach(obj => normalizedObj[obj.id] = obj)
-//   return normalizedObj
-// }
 
 const intialState = {
   allSpots: {}, // normalized kvps
-  singleSpot: {}
+  singleSpot: {},
+  userSpots: []
 }
 
 const spotsReducer = (state = intialState, action) => {
@@ -119,6 +129,8 @@ const spotsReducer = (state = intialState, action) => {
         spotsState[spot.id] = spot
       })
       return {allSpots: spotsState}
+    case LOAD_USER_SPOTS:
+      return { ...state, userSpots: action.spots}
     case SPOT_DETAIL:
       const singleSpot = action.spot;
       return {...state, singleSpot}

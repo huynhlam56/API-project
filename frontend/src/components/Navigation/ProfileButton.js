@@ -39,8 +39,8 @@ function ProfileButton({ user, spot }) {
     history.push('/spots')
   }
 
-  const handleClickNavigateToUpdateForm = () => {
-    history.push(`/spots/${spot.id}`)
+  const handleClickNavigateToManageSpot = () => {
+    history.push(`/spots/current`)
   }
   return (
     <>
@@ -55,7 +55,7 @@ function ProfileButton({ user, spot }) {
           <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
         </li>
         <li>
-          <button onClick={handleClickNavigateToUpdateForm} className="manage-spots-button">Manage Spots</button>
+          <button onClick={handleClickNavigateToManageSpot} className="manage-spots-button">Manage Spots</button>
         </li>
         <li>
           <button onClick={logout}>Log Out</button>

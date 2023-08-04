@@ -25,8 +25,6 @@ const RemoveSpot = ({ spot }) => {
 
   return(
     <div>
-      <h3>{spot.name}</h3>
-      <p>{spot.city}, {spot.state}</p>
       <button onClick={handleRemmoveSpot}>Delete</button>
 
       {showConfirmation && (

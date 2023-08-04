@@ -23,11 +23,10 @@ export const SpotDetail = () => {
   const handleClickReserveButton = () => {
     alert('Feature coming soon!')
   }
-  if(!spotId) return null
+  if(!spot) return null
 
   return (
     <div>
-      {spot ? ( <SpotForm spot={spot} formType="Update" /> ) : ( <SpotForm formType="Create" /> )}
       <h1>{spot.name}</h1>
       <p>★{spot.avgStarRating}</p>
       <p>{spot.city} {spot.state}, {spot.country}</p>
@@ -38,9 +37,8 @@ export const SpotDetail = () => {
       <p>{spot.description}</p>
       <div className="callout-box">
         ${spot.price} night
-        <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
-        <RemoveSpot spot={spot} />
       </div>
+      <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
     </div>
   )
 }
