@@ -15,17 +15,17 @@ module.exports = {
       await SpotImage.bulkCreate([
         {
           spotId: 1,
-          url: 'https://www.vacationbeachhomes.com/san-diego-vacation-rentals/',
+          url: 'https://pictures.escapia.com/CINBCH/186791/4019170258.jpg',
           preview: true
         },
         {
           spotId: 2,
-          url: 'http://www.destination360.com/north-america/us/california/los-angeles/vacation-rentals',
+          url: 'https://img.geocaching.com/waymarking/display/12bce2fb-bf42-44df-bbd4-8a53013d741f.jpg',
           preview: false
         },
         {
           spotId: 3,
-          url: 'https://www.flipkey.com/book/new-york-city/222593015/hom_home_type.house/',
+          url: 'https://www.decorilla.com/online-decorating/wp-content/uploads/2022/03/New-York-apartment-style-concept-by-Decorilla.jpg',
           preview: true
         },
         {
@@ -35,7 +35,7 @@ module.exports = {
         },
         {
           spotId: 5,
-          url: 'https://thinksaltlakecity.com/best-places-to-buy-vacation-property-in-utah/',
+          url: 'https://www.abodeparkcity.com/wp-content/uploads/2023/02/Book-the-best-Park-City-Vacation-Rentals-with-Abode-Park-City-Now-scaled.jpeg',
           preview: true
         },
       ], options)
