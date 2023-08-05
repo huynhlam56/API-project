@@ -62,3 +62,17 @@ a {
 h3 {
     margin: 0px
 }
+
+.star-rating{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.on {
+    color: #d41089;
+  }
+  .off {
+    color: #ffffff;
+  }

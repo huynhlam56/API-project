@@ -19,7 +19,6 @@ const SpotForm = ({spot, formType}) => {
   const history = useHistory()
 
   const handleSubmit = async (e) => {
-    console.log('form submitted')
     e.preventDefault()
     setErrors({});
 
@@ -38,7 +37,6 @@ const SpotForm = ({spot, formType}) => {
     if (formType === 'Update Spot') {
       try {
         newSpot.id = spot.id;
-        console.log(newSpot.id)
         await dispatch(updateSpot(newSpot));
         history.push(`/spots/${newSpot.id}`);
       } catch (error) {
@@ -55,7 +53,6 @@ const SpotForm = ({spot, formType}) => {
         }
       } catch (error) {
         const data = await error.json();
-        console.log(data)
         if (data && data.errors) {
           setErrors(data.errors);
         }

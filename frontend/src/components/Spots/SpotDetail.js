@@ -5,7 +5,10 @@ import { getSpotDetailThunk } from "../../store/spots";
 import SpotForm from "../CreateSpot/SpotForm";
 import ConfirmationModal from "../RemoveSpot/ConfirmationModal";
 import { loadAllReviewsThunk } from "../../store/reviews";
-
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import OpenModalButton from "../OpenModalButton";
+import CreateReviewFormModal from "../Reviews/CreateReviewFormModal";
+import RemoveReview from "../Reviews/RemoveReview";
 
 
 export const SpotDetail = () => {
@@ -14,20 +17,33 @@ export const SpotDetail = () => {
   const allReviews = useSelector(state => state.reviews.spot)
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
-
+  const history = useHistory()
   useEffect(() => {
-    dispatch(loadAllReviewsThunk(spotId))
     dispatch(getSpotDetailThunk(spotId))
-  }, [dispatch, spotId])
+    dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
+  }, [dispatch])
 
   const handleClickReserveButton = () => {
     alert('Feature coming soon!')
   }
 
-  const addReviews = (review) => {
+
+  const firstReview = (review) => {
+    if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId) {
+      return (
+        <div>
+          <h2>Be the first to write a review!</h2>
+          <OpenModalButton
+            buttonText="Post Your Review"
+            modalComponent={<CreateReviewFormModal />}
+          />
+        </div>
+      )
+    }
+  }
+  const showReviews = (review) => {
     const dateObj = new Date(review.createdAt)
     const newDate = dateObj.toDateString()
-
 
     return (
       <li key={review.id}>
@@ -35,7 +51,13 @@ export const SpotDetail = () => {
           <p>{review.review}</p>
           <p>{newDate}</p>
           <p>{`${review.User.firstName} ${review.User.lastName}`}</p>
-          </div>
+        </div>
+        {Object.keys(sessionUser).length !== 0 && sessionUser.id === review.userId
+          ?
+          <RemoveReview review={review}/>
+          :
+          null
+        }
       </li>
     )
   }
@@ -69,9 +91,9 @@ export const SpotDetail = () => {
           Object.values(allReviews).length > 0 ?
           Object.values(allReviews)
           .sort(compareReviewDates)
-          .map((review) => (addReviews(review)))
+          .map((review) => (showReviews(review)))
           :
-          <button className="add-first-review-btn">Be the first to write a review!</button>
+          firstReview()
         }
       </ul>
     </div>

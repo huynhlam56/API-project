@@ -10,7 +10,6 @@ const UpdateSpotForm = () => {
 	const { spotId } = useParams()
 
 	const spot = useSelector((state) => (state.spots ? state.spots.allSpots[spotId] : {}))
-
 	if(!spot) return null
 
 	return (

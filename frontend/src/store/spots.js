@@ -55,13 +55,11 @@ export const updateSpot = (spot) => async dispatch => {
     body: JSON.stringify(spot)
   })
   if(response.ok) {
-    console.log(response, 'RESPONSE FROM API')
     const updateSpot = await response.json()
     dispatch(updateSpotAction(updateSpot))
     return updateSpot
   } else {
     const errors = await response.json()
-    console.log(errors, 'ERRORS FROM THUNK')
     return errors
   }
 }
@@ -138,6 +136,7 @@ const spotsReducer = (state = intialState, action) => {
       return {...state, [action.spot.id]: action.spot}
     case REMOVE_SPOT:
       const newState = {...state}
+      console.log(newState)
       delete newState[action.spotId]
       return newState
     default:
