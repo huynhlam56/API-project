@@ -28,41 +28,50 @@ export const SpotDetail = () => {
     alert('Feature coming soon!')
   }
 
-console.log(allReviews, 'I AM REVIEWS')
-  const addReviews = (review) => {
+
+
+  const addReviews = () => {
+    console.log(allReviews, 'I AM REVIEWS')
+
+    if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId && Object.values(allReviews).length === 0 ) {
+    return (
+      <div>
+        <h2>Be the first to write a review!</h2>
+        <OpenModalButton
+          buttonText="Post Your Review"
+          modalComponent={<CreateReviewFormModal />}
+        />
+      </div>
+    )
+  }
     let userReview = false
-    for(let i = 0; i < allReviews.length; i++) {
-      let review = allReviews[i]
-      if(sessionUser.id === review.userId) {
+    for(let i = 0; i < Object.values(allReviews).length; i++) {
+      let review = Object.values(allReviews)[i]
+      if(sessionUser?.id === review?.userId) {
+        console.log('TRUE')
         userReview = true
       }
     }
-    if(!userReview && sessionUser.id !== spot?.ownerId) {
       return (
         <div>
-          {showReviews(review)}
-          <OpenModalButton
-            buttonText="Post Your Review"
-            modalComponent={<CreateReviewFormModal />}
-          />
+          {Object.values(allReviews).map((review) => (showReviews(review)))}
+          {
+            !userReview && sessionUser.id !== spot?.ownerId ?
+            <OpenModalButton
+              buttonText="Post Your Review"
+              modalComponent={<CreateReviewFormModal />}
+            />
+            :
+            null
+
+          }
         </div>
       )
-    }
 // if the current user has not made a review for the spot, and they are not the owner of the spot
 // then show a button that will allow them to post a review. If they already made a review for a spot
 //that they do not own, then the button should be hidden.
 
-    if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId && Object.values(allReviews).length === 0 ) {
-      return (
-        <div>
-          <h2>Be the first to write a review!</h2>
-          <OpenModalButton
-            buttonText="Post Your Review"
-            modalComponent={<CreateReviewFormModal />}
-          />
-        </div>
-      )
-    }
+
   }
 
   const showReviews = (review) => {
@@ -115,7 +124,11 @@ console.log(allReviews, 'I AM REVIEWS')
     <div>
       <h2>Reviews</h2>
       <ul>
-        {/* {
+        {
+          addReviews()
+        }
+        {
+        /* {
           Object.values(allReviews).length > 0 ?
           Object.values(allReviews)
           .sort(compareReviewDates)
