@@ -39,6 +39,7 @@ function CreateReviewFormModal() {
   }
 
   return (
+
     <div>
       <h2>How was your stay?</h2>
       <form onSubmit={handleSubmitReview}>
@@ -61,7 +62,7 @@ function CreateReviewFormModal() {
             onClickStars={(index) => onClick(index)}
           />
       </div>
-        <button type="submit">Submit Review</button>
+        <button onSubmit={handleSubmitReview} type="submit">Submit Your Review</button>
       </form>
     </div>
   )

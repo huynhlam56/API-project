@@ -43,7 +43,7 @@ module.exports = {
       id: 3,
       ownerId: 3,
       address: '3492 Greenwood Dr.',
-      city: 'new York City',
+      city: 'New York City',
       state: 'New York',
       country: 'US',
       lat: 16.3200,

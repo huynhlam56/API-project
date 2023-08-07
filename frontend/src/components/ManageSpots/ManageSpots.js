@@ -19,6 +19,9 @@ const ManageSpots = () => {
         history.push(`/spots/${spotId}/edit`)
     }
 
+    const handleCreateSpot = (e) => {
+        history.push('/spots')
+    }
     useEffect(() => {
         dispatch(loadUserSpotsThunk())
     }, [dispatch])
@@ -26,7 +29,7 @@ const ManageSpots = () => {
     return (
         <div>
             <h2>Manage Spots</h2>
-            {userSpots && userSpots.Spots?.map((spot) => (
+            {userSpots?.Spots?.length !== 0 ? userSpots?.Spots?.map((spot) => (
                 <li key={spot.id} >
                     <img src={spot.previewImage} />
                     <h1>{spot.name}</h1>
@@ -37,7 +40,11 @@ const ManageSpots = () => {
                     <button data-id={spot.id} onClick={handleUpdateBtn}>Update Spot</button>
                     <RemoveSpot spot={spot} />
                 </li>
-            ))}
+            ))
+            :
+            <button onClick={handleCreateSpot}>Create A New Spot</button>
+
+            }
         </div>
     )
 }

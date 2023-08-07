@@ -30,6 +30,7 @@ export const SpotDetail = () => {
 
   const firstReview = (review) => {
     if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId) {
+      console.log(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId)
       return (
         <div>
           <h2>Be the first to write a review!</h2>
@@ -41,6 +42,7 @@ export const SpotDetail = () => {
       )
     }
   }
+
   const showReviews = (review) => {
     const dateObj = new Date(review.createdAt)
     const newDate = dateObj.toDateString()
@@ -72,32 +74,42 @@ export const SpotDetail = () => {
   if(!spot) return null
 
   return (
-    <div>
+    <div className="spot-detail-page">
       <h1>{spot.name}</h1>
-      <p>★{spot.avgStarRating}</p>
       <p>{spot.city} {spot.state}, {spot.country}</p>
       {spot.SpotImages && spot.SpotImages.map(spotImage => (
-        <img src={spotImage.url}/>
+        <img className="main-image" src={spotImage.url}/>
       ))}
-      <p>Hosted by: Huynh Lam</p>
-      <p>{spot.description}</p>
-      <div className="callout-box">
-        ${spot.price} night
+      <div className="detail-container">
+        <div className="host-description-container">
+          <p className="host-description-p">Hosted by: {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
+          <p className="host-description-p1">{spot.description}</p>
+        </div>
+        <div className="callout-box">
+          <p>★{spot.avgStarRating}</p>
+          <p>${spot.price} night</p>
+          <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
+        </div>
       </div>
-    <div>
-      <h2>Reviews</h2>
-      <ul>
-        {
-          Object.values(allReviews).length > 0 ?
-          Object.values(allReviews)
-          .sort(compareReviewDates)
-          .map((review) => (showReviews(review)))
+      <div>
+        <h2>Reviews</h2>
+        <ul>
+          {
+            Object.values(allReviews).length > 0 ?
+            Object.values(allReviews)
+            .sort(compareReviewDates)
+            .map((review) => (showReviews(review)))
+            :
+            firstReview()
+          }
+        </ul>
+        {/* {Object.values(allReviews).length > 0 && sessionUser.id !== review?.userId ?
+          <CreateReviewFormModal />
           :
-          firstReview()
-        }
-      </ul>
-    </div>
-      <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
+          null
+        } */}
+
+      </div>
     </div>
   )
 }

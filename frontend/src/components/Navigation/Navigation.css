@@ -14,13 +14,11 @@
     flex-direction: row-reverse;
 }
 
-#home-login-singup-buttons-container {
-display: flex;
-list-style: none;
-flex-direction: row;
-align-items: baseline;
-}
-
 .active {
     color: black;
+}
+
+.open-menu-container {
+    display: flex;
+    flex-direction: column;
 }

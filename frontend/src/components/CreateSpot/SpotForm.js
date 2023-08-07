@@ -14,9 +14,9 @@ const SpotForm = ({spot, formType}) => {
   const [name, setName] = useState(spot?.name)
   const [description, setDescription] = useState(spot?.description)
   const [price, setPrice] = useState(spot?.price)
-  const [counter, setCounter] = useState(spot?.id)
   const [errors, setErrors] = useState({})
   const history = useHistory()
+  const [previewImage, setPreviewImage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,7 +31,8 @@ const SpotForm = ({spot, formType}) => {
       lng,
       name,
       description,
-      price
+      price,
+      previewImage
     }
 
     if (formType === 'Update Spot') {
@@ -45,7 +46,7 @@ const SpotForm = ({spot, formType}) => {
           setErrors(data.errors);
         }
       }
-    } else if (formType === 'Create Spot') {
+    } else if (formType === 'Create A New Spot') {
       try {
         const createdSpot = await dispatch(createSpot(newSpot));
         if(createdSpot) {
@@ -63,7 +64,7 @@ const SpotForm = ({spot, formType}) => {
   return (
     <div className="inputBox">
       <h1>{formType}</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='update-create-form'onSubmit={handleSubmit}>
         <section>
         <h2>Where's your place located?</h2>
         <p>Guests will only get your exact address once they booked a reservation.</p>
@@ -166,6 +167,8 @@ const SpotForm = ({spot, formType}) => {
           <input
           type='text'
           placeholder="Preview Image URL"
+          value={previewImage}
+          onChange={(e) => setPreviewImage(e.target.value)}
           />
           <input
             type='text'
