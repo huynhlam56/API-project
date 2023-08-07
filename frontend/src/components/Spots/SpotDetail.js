@@ -18,6 +18,7 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
+
   useEffect(() => {
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
@@ -27,10 +28,31 @@ export const SpotDetail = () => {
     alert('Feature coming soon!')
   }
 
+console.log(allReviews, 'I AM REVIEWS')
+  const addReviews = (review) => {
+    let userReview = false
+    for(let i = 0; i < allReviews.length; i++) {
+      let review = allReviews[i]
+      if(sessionUser.id === review.userId) {
+        userReview = true
+      }
+    }
+    if(!userReview && sessionUser.id !== spot?.ownerId) {
+      return (
+        <div>
+          {showReviews(review)}
+          <OpenModalButton
+            buttonText="Post Your Review"
+            modalComponent={<CreateReviewFormModal />}
+          />
+        </div>
+      )
+    }
+// if the current user has not made a review for the spot, and they are not the owner of the spot
+// then show a button that will allow them to post a review. If they already made a review for a spot
+//that they do not own, then the button should be hidden.
 
-  const firstReview = (review) => {
-    if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId) {
-      console.log(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId)
+    if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId && Object.values(allReviews).length === 0 ) {
       return (
         <div>
           <h2>Be the first to write a review!</h2>
@@ -64,7 +86,6 @@ export const SpotDetail = () => {
     )
   }
 
-
   const compareReviewDates = (reviewA, reviewB) => {
     const dateA = new Date(reviewA.createdAt);
     const dateB = new Date(reviewB.createdAt);
@@ -91,25 +112,20 @@ export const SpotDetail = () => {
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
       </div>
-      <div>
-        <h2>Reviews</h2>
-        <ul>
-          {
-            Object.values(allReviews).length > 0 ?
-            Object.values(allReviews)
-            .sort(compareReviewDates)
-            .map((review) => (showReviews(review)))
-            :
-            firstReview()
-          }
-        </ul>
-        {/* {Object.values(allReviews).length > 0 && sessionUser.id !== review?.userId ?
-          <CreateReviewFormModal />
+    <div>
+      <h2>Reviews</h2>
+      <ul>
+        {/* {
+          Object.values(allReviews).length > 0 ?
+          Object.values(allReviews)
+          .sort(compareReviewDates)
+          .map((review) => (showReviews(review)))
           :
-          null
+          firstReview()
         } */}
-
-      </div>
+      </ul>
+    </div>
+      <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
     </div>
   )
 }
