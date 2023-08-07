@@ -1,10 +1,16 @@
 /* TODO Add site wide styles */
+.header {
+    border-bottom: 1px solid;
+    border-color: rgb(180, 176, 176);
+
+}
+
 .preview-images {
-    width: 300px;
-    height: 300px;
-    border-radius: 30px;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
     border: 0px solid;
-    padding: 20px;
+    padding: 0px;
 }
 
 
@@ -12,15 +18,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    padding-left: 0px
 }
 
 #name-rating {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
+    align-self: flex-start;
     color: #363634;
-    font-family: Calibri, 'Trebuchet MS', sans-serif
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 10px;
 }
 
 a {
@@ -28,13 +33,14 @@ a {
     color: black;
   }
 
-  .nav-link.active {
+.nav-link.active {
     text-decoration: none;
     color: black
   }
 
 #location-price {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     justify-content: center;
 
@@ -42,25 +48,61 @@ a {
 
 #location {
     margin: 0px;
-    color: #5c5c5b;
+    color: #040404;
 
 }
 
 #price{
     margin-top: 0px;
-    margin-bottom: 20px;
-    color: #5c5c5b;
+    margin-bottom: 0px;
+    color: #000000;
 }
 
 #spot-properties {
-    padding-left: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.host-description-p1 {
+    font-size: 20px;
+}
+
+.callout-box {
+    border-radius: 25px;
+    border: 0px solid rgb(109, 109, 109);
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.detail-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.host-description-container {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+}
+
+.reserve-button {
+    background-color: #ff5361;
 }
 
 h3 {
     margin: 0px
+}
+
+.logo-title {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: baseline;
 }
 
 .star-rating{
@@ -70,9 +112,63 @@ h3 {
     cursor: pointer;
 }
 
+.star {
+    padding-right: 0px;
+    margin: 0px;
+    font-size: 15px;
+}
+
+.spot-detail-page {
+    margin: 25px;
+}
+
 .on {
     color: #d41089;
-  }
-  .off {
+}
+
+.off {
     color: #ffffff;
-  }
+}
+
+.toolTip:hover .toolTipText {
+    visibility: visible;
+}
+
+.toolTip .toolTipText {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(58, 53, 53);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.toolTip .toolTipText::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(58, 53, 53) transparent transparent transparent;
+}
+
+.toolTip {
+    position: relative;
+    display: inline-block;
+    padding: 30px
+}
+
+.update-create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}

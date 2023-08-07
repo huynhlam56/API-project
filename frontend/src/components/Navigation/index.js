@@ -8,7 +8,7 @@ import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-
+import logo from './logo.png'
 
 
 
@@ -44,16 +44,12 @@ function Navigation({ isLoaded }) {
   return (
     <header className="header">
     <a href='/'>
-      <h1>
+      <h1 className='logo-title' style={{color: '#bf6980'}}>
+      <img style={{width: 40, height: 40}} src={logo}/>
         Stay Inns
       </h1>
     </a>
       <ul id='home-login-singup-buttons-container'>
-        <li>
-          <NavLink exact to="/">
-            <FontAwesomeIcon icon={faHome} />
-          </NavLink>
-        </li>
         {isLoaded && sessionLinks}
         </ul>
     </header>
