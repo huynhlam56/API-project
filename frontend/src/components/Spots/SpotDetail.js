@@ -31,7 +31,6 @@ export const SpotDetail = () => {
 
 
   const addReviews = () => {
-    console.log(allReviews, 'I AM REVIEWS')
 
     if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId && Object.values(allReviews).length === 0 ) {
     return (
@@ -116,7 +115,7 @@ export const SpotDetail = () => {
           <p className="host-description-p1">{spot.description}</p>
         </div>
         <div className="callout-box">
-          <p>★{spot.avgStarRating}</p>
+          <p>★{spot.avgStarRating?.toFixed(1)}</p>
           <p>${spot.price} night</p>
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
