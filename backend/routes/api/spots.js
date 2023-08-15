@@ -26,11 +26,14 @@ const validateSpots = [
     .withMessage('Country is required'),
     check('lat')
     .exists({checkFalsy: true})
-    .isFloat()
-    .withMessage('Latitude is not valid'),
+    .withMessage('Latitude is not valid')
+    .isFloat({max: 99.9999})
+    .withMessage('Latitude must be less than 99.9999'),
     check('lng')
     .exists({checkFalsy: true})
-    .withMessage('Longitude is not valid'),
+    .withMessage('Longitude is not valid')
+    .isFloat({max: 999.9999})
+    .withMessage('Longitude must be less than 999.9999'),
     check('name')
     .exists({checkFalsy: true})
     .isLength({max: 49})
