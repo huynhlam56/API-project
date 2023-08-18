@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { createSpot, updateSpot } from "../../store/spots";
+import { createSpot, createSpotImageThunk, updateSpot } from "../../store/spots";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -17,6 +17,11 @@ const SpotForm = ({spot, formType}) => {
   const [errors, setErrors] = useState({})
   const history = useHistory()
   const [previewImage, setPreviewImage] = useState('')
+  const [imageUrlA, setImageUrlA] = useState('')
+  const [imageUrlB, setImageUrlB] = useState('')
+  const [imageUrlC, setImageUrlC] = useState('')
+  const [imageUrlD, setImageUrlD] = useState('')
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -48,7 +53,14 @@ const SpotForm = ({spot, formType}) => {
       }
     } else if (formType === 'Create A New Spot') {
       try {
+        console.log('IN THE COMPONENT', spot.id)
         const createdSpot = await dispatch(createSpot(newSpot));
+        dispatch(createSpotImageThunk(createdSpot.id, previewImage, true))
+        dispatch(createSpotImageThunk(createdSpot.id, imageUrlA, false))
+        dispatch(createSpotImageThunk(createdSpot.id, imageUrlB, false))
+        dispatch(createSpotImageThunk(createdSpot.id, imageUrlC, false))
+        dispatch(createSpotImageThunk(createdSpot.id, imageUrlD, false))
+
         if(createdSpot) {
           history.push(`/spots/${createdSpot.id}`);
         }
@@ -76,7 +88,7 @@ const SpotForm = ({spot, formType}) => {
             name='address'
             required
           />
-         {errors.address && <p>*{errors.address}*</p>}
+         {errors.address && <p className="error-message">*{errors.address}*</p>}
           <input
             type='text'
             onChange={(e) => setCity(e.target.value)}
@@ -85,7 +97,7 @@ const SpotForm = ({spot, formType}) => {
             name='city'
             required
           />
-           {errors.city && <p>*{errors.city}*</p>}
+           {errors.city && <p className="error-message">*{errors.city}*</p>}
           <input
             type='text'
             onChange={(e) => setState(e.target.value)}
@@ -94,7 +106,7 @@ const SpotForm = ({spot, formType}) => {
             name='state'
             required
           />
-           {errors.state && <p>*{errors.state}*</p>}
+           {errors.state && <p className="error-message">*{errors.state}*</p>}
           <input
             type='text'
             onChange={(e) => setCountry(e.target.value)}
@@ -103,7 +115,7 @@ const SpotForm = ({spot, formType}) => {
             name='country'
             required
           />
-           {errors.country && <p>*{errors.country}*</p>}
+           {errors.country && <p className="error-message">*{errors.country}*</p>}
           <input
             type='text'
             onChange={(e) => setLat(e.target.value)}
@@ -112,7 +124,7 @@ const SpotForm = ({spot, formType}) => {
             name='latitude'
             required
           />
-           {errors.lat && <p>*{errors.lat}*</p>}
+           {errors.lat && <p className="error-message">*{errors.lat}*</p>}
           <input
             type='text'
             onChange={(e) => setLng(e.target.value)}
@@ -121,7 +133,7 @@ const SpotForm = ({spot, formType}) => {
             name='longitude'
             required
           />
-           {errors.lng && <p>*{errors.lng}*</p>}
+           {errors.lng && <p className="error-message">*{errors.lng}*</p>}
         </section>
         <section>
           <h2>Describe your place to guests</h2>
@@ -146,7 +158,7 @@ const SpotForm = ({spot, formType}) => {
             name='name'
             required
           />
-          {errors.name && <p>*{errors.name}*</p>}
+          {errors.name && <p className="error-message">*{errors.name}*</p>}
         </section>
         <section>
           <h2>Set a base price for your spot</h2>
@@ -159,7 +171,7 @@ const SpotForm = ({spot, formType}) => {
             name='price'
             required
           />
-          {errors.price && <p>*{errors.price}*</p>}
+          {errors.price && <p className="error-message">*{errors.price}*</p>}
         </section>
         <section>
           <h2>Liven up your spot with photos</h2>
@@ -173,18 +185,26 @@ const SpotForm = ({spot, formType}) => {
           <input
             type='text'
             placeholder="Image URL"
+            value={imageUrlA}
+            onChange={(e) => setImageUrlA(e.target.value)}
           />
           <input
             type='text'
             placeholder="Image URL"
+            value={imageUrlB}
+            onChange={(e) => setImageUrlB(e.target.value)}
           />
           <input
             type='text'
             placeholder="Image URL"
+            value={imageUrlC}
+            onChange={(e) => setImageUrlC(e.target.value)}
           />
           <input
             type='text'
             placeholder="Image URL"
+            value={imageUrlD}
+            onChange={(e) => setImageUrlD(e.target.value)}
           />
         </section>
       <button onSubmit={handleSubmit} type='submit'>{formType}</button>

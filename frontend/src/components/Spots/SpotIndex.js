@@ -15,10 +15,10 @@ const SpotIndex = () => {
   }, [dispatch]);
 
   return (
-    <div >
+    <div>
       <ul id='spot-tiles'>
         {Object.values(spots.allSpots).map((spot) => (
-          <div className="toolTip">
+          <div className="toolTip" key={spot.id}>
             <SpotTile spot={spot} />
             <span className="toolTipText">{spot.name}</span>
           </div>
