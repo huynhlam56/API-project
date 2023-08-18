@@ -6,6 +6,7 @@ const SPOT_DETAIL = 'spots/spotDetail'
 const REMOVE_SPOT = 'spots/removeSpot'
 const UPDATE_SPOT = 'spots/updateSpot'
 const LOAD_USER_SPOTS = 'spots/loadUseSpots'
+const CREATE_SPOT_IMAGES = 'spots/createSpotImages'
 
 
 
@@ -38,6 +39,28 @@ export const loadUsersSpotsAction = (spots) => ({
   type: LOAD_USER_SPOTS,
   spots
 })
+
+export const createSpotImagesAction = (spotImgData) => ({
+  type: CREATE_SPOT_IMAGES,
+  spotImgData
+})
+
+// ADD IMAGES WHEN CREATING A SPOT
+export const createSpotImageThunk = (spotId, url, preview) => async dispatch => {
+  console.log('IN THE THUNK: RUNNING')
+  if(url === '') {
+    return null
+  }
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    headers: {'Content-Type': 'Application/json'},
+    body: JSON.stringify({url, preview})
+  })
+  if(response.ok) {
+    const spotImgData = await response.json()
+    dispatch(createSpotImagesAction(spotImgData))
+  }
+}
 
 // GET USER SPOT
 export const loadUserSpotsThunk = () => async dispatch => {
@@ -131,14 +154,15 @@ const spotsReducer = (state = intialState, action) => {
       const singleSpot = action.spot;
       return {...state, singleSpot}
     case CREATE_SPOT:
-      return {...state, [action.spot.id]: action.spot }
+      return {...state, singleSpot: {...action.spot, SpotImages: []}, [action.spot.id]: action.spot }
     case UPDATE_SPOT:
       return {...state, [action.spot.id]: action.spot}
     case REMOVE_SPOT:
       const newState = {...state}
-      console.log(newState)
       delete newState[action.spotId]
       return newState
+    case CREATE_SPOT_IMAGES:
+      return {...state, singleSpot: {...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.spotImgData]}}
     default:
       return state;
   }

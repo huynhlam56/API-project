@@ -5,9 +5,8 @@ import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Navigation.css";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 import logo from './logo.png'
 
 
@@ -45,7 +44,8 @@ function Navigation({ isLoaded }) {
     <header className="header">
     <a href='/'>
       <h1 className='logo-title' style={{color: '#bf6980'}}>
-      <img style={{width: 40, height: 40}} src={logo}/>
+      <img style={{width: 40, height: 40, color: "#ff0099"}} src={logo}/>
+      {/* <FontAwesomeIcon icon="fa-regular fa-mountain-city" size="xl" style={{color: "#45313d"}} /> */}
         Stay Inns
       </h1>
     </a>
