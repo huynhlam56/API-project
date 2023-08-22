@@ -21,7 +21,7 @@ module.exports = {
         {
           spotId: 2,
           url: 'https://img.geocaching.com/waymarking/display/12bce2fb-bf42-44df-bbd4-8a53013d741f.jpg',
-          preview: false
+          preview: true
         },
         {
           spotId: 3,
@@ -31,7 +31,7 @@ module.exports = {
         {
           spotId: 4,
           url: 'https://www.nar.realtor/magazine/real-estate-news/home-and-design/post-pandemic-vacation-house-changes',
-          preview: false
+          preview: true
         },
         {
           spotId: 5,
