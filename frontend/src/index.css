@@ -6,7 +6,7 @@
 }
 
 .preview-images {
-    width: 250px;
+    width: 300px;
     height: 250px;
     border-radius: 10px;
     border: 0px solid;
@@ -17,8 +17,7 @@
 #spot-tiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    padding-left: 0px
+    gap: 20px;
 }
 
 #name-rating {
@@ -98,12 +97,6 @@ h3 {
     margin: 0px
 }
 
-.logo-title {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: baseline;
-}
 
 .star-rating{
     background-color: transparent;
@@ -164,11 +157,17 @@ h3 {
 .toolTip {
     position: relative;
     display: inline-block;
-    padding: 20px
+    padding: 0px;
+    width: 300px;
+    height: 350px;
 }
 
 .update-create-form {
     display: flex;
     flex-direction: column;
     align-items: baseline;
+}
+
+.spots-page{
+    padding: 0px;
 }

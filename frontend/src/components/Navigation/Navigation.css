@@ -1,5 +1,6 @@
 .header {
     display: flex;
+    padding: 0px 40px;
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
@@ -9,16 +10,69 @@
     display: none;
 }
 
+.profile-dropdown{
+    display: flex;
+    flex-direction: column;
+    /* border-radius: 15px; */
+    /* box-shadow: 0px 3px 8px rgba(165, 163, 163, 0.5); */
+    padding: 10px
+}
+
 #login-sign-up-buttons {
     display: flex;
     flex-direction: row-reverse;
 }
 
-.active {
-    color: black;
-}
-
 .open-menu-container {
     display: flex;
     flex-direction: column;
+    padding: 5px 5px 5px 12px;
+    margin: 0px;
+}
+
+.menu-button{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    border: 1px solid rgb(187, 183, 183);
+    border-radius: 30px;
+    width: 83px;
+    height: 45px;
+    align-items: center;
+    background-color: white;
+}
+
+.menu-button:hover{
+    box-shadow: 0px 3px 8px rgba(165, 163, 163, 0.5);
+    background-color: white;
+}
+
+i.fa-solid.fa-bars{
+    font-size: 18px;
+    color: rgb(98, 95, 95);
+}
+
+i.fas.fa-user-circle{
+    font-size: 30px;
+    color: rgb(127, 124, 124);
+}
+
+i.fa-solid.fa-plane-arrival{
+    color: #dba9d6;
+    font-size: 40px;
+}
+
+
+.logo-title {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    color: #ca88c3;
+    font-size: 28px;
+    margin-bottom: 10px
+}
+
+#home-login-singup-buttons-container{
+    margin-bottom: 10px;
 }

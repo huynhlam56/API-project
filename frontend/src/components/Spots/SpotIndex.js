@@ -15,7 +15,7 @@ const SpotIndex = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="spots-page">
       <ul id='spot-tiles'>
         {Object.values(spots.allSpots).map((spot) => (
           <div className="toolTip" key={spot.id}>
