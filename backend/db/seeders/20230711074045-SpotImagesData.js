@@ -30,7 +30,7 @@ module.exports = {
         },
         {
           spotId: 4,
-          url: 'https://www.nar.realtor/magazine/real-estate-news/home-and-design/post-pandemic-vacation-house-changes',
+          url: 'https://portlandmaine.com/wp-content/uploads/2022/02/Upper-Exchange-Street-1-scaled.jpeg',
           preview: true
         },
         {
