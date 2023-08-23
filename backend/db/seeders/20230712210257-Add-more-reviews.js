@@ -63,11 +63,11 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'ReviewImages'
-    queryInterface.bulkDelete("stay_inns.ReviewImages", null, options)
-    options.tableName = 'stay_inns.Reviews';
+    queryInterface.bulkDelete("ReviewImages", null, options)
+    options.tableName = 'Reviews';
     return queryInterface.bulkDelete(options.tableName, null, options)
   }
 };
 
 
-npm install && npm run render-postbuild && npm run build && npm run sequelize --prefix backend db:seed:undo:all && npm run sequelize --prefix backend db:migrate:undo:all && npm run sequelize --prefix backend db:migrate && npm run sequelize --prefix backend db:seed:all
+
