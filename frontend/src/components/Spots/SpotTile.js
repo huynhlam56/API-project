@@ -13,7 +13,7 @@ const SpotTile = ({ spot }) => {
                 <strong>${spot.price}</strong> night</p>
             </div>
             <div id='name-rating'>
-              <p className="star">★{spot?.avgRating !== 'No reviews' ? spot.avgRating.toFixed(2) : 'New'}</p>
+              <p className="star">★{spot?.avgRating !== 'No reviews' ? parseFloat(spot.avgRating).toFixed(2) : 'New'}</p>
             </div>
           </div>
         </li>
