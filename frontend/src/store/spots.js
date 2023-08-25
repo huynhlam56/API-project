@@ -5,7 +5,7 @@ const CREATE_SPOT = 'spots/createSpot'
 const SPOT_DETAIL = 'spots/spotDetail'
 const REMOVE_SPOT = 'spots/removeSpot'
 const UPDATE_SPOT = 'spots/updateSpot'
-const LOAD_USER_SPOTS = 'spots/loadUseSpots'
+const LOAD_USER_SPOTS = 'spots/loadUserSpots'
 const CREATE_SPOT_IMAGES = 'spots/createSpotImages'
 
 
@@ -137,7 +137,7 @@ export const fetchAllSpots = () => async dispatch => {
 const intialState = {
   allSpots: {}, // normalized kvps
   singleSpot: {},
-  userSpots: []
+  userSpots: {}
 }
 
 const spotsReducer = (state = intialState, action) => {
@@ -149,7 +149,12 @@ const spotsReducer = (state = intialState, action) => {
       })
       return {allSpots: spotsState}
     case LOAD_USER_SPOTS:
-      return { ...state, userSpots: action.spots}
+      console.log(action.spots)
+      const spots = {}
+      action.spots.Spots.forEach((spot) => {
+         spots[spot.id] = spot
+      })
+      return { ...state, userSpots: spots}
     case SPOT_DETAIL:
       const singleSpot = action.spot;
       return {...state, singleSpot}
