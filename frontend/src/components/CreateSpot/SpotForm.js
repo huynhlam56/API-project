@@ -45,9 +45,8 @@ const SpotForm = ({spot, formType}) => {
       try {
         newSpot.id = spot.id;
         const updatedSpot = await dispatch(updateSpot(newSpot));
-        dispatch(createSpotImageThunk(updatedSpot.id, previewImage, true))
 
-        history.push(`/spots/${newSpot.id}/edit`);
+        history.push(`/spots/${updatedSpot.id}`);
       } catch (error) {
         const data = await error.json();
         if (data && data.errors) {
