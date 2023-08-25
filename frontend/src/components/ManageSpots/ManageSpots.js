@@ -29,7 +29,7 @@ const ManageSpots = () => {
     return (
         <div>
             <h2>Manage Spots</h2>
-            {userSpots?.Spots?.length !== 0 ? userSpots?.Spots?.map((spot) => (
+            {Object.values(userSpots)?.length !== 0 ? Object.values(userSpots)?.map((spot) => (
                 <li key={spot.id} >
                     <img src={spot.previewImage} />
                     <h1>{spot.name}</h1>

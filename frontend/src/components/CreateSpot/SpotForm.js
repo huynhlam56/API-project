@@ -1,9 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSpot, createSpotImageThunk, updateSpot } from "../../store/spots";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const SpotForm = ({spot, formType}) => {
+  const singleSpot = useSelector((state) => state.spots?.singleSpot?.SpotImages)
   const dispatch = useDispatch()
   const [address, setAddress] = useState(spot?.address)
   const [city, setCity] = useState(spot?.city);
@@ -16,7 +17,7 @@ const SpotForm = ({spot, formType}) => {
   const [price, setPrice] = useState(spot?.price)
   const [errors, setErrors] = useState({})
   const history = useHistory()
-  const [previewImage, setPreviewImage] = useState('')
+  const [previewImage, setPreviewImage] = useState(spot?.previewImage)
   const [imageUrlA, setImageUrlA] = useState('')
   const [imageUrlB, setImageUrlB] = useState('')
   const [imageUrlC, setImageUrlC] = useState('')
@@ -43,8 +44,10 @@ const SpotForm = ({spot, formType}) => {
     if (formType === 'Update Spot') {
       try {
         newSpot.id = spot.id;
-        await dispatch(updateSpot(newSpot));
-        history.push(`/spots/${newSpot.id}`);
+        const updatedSpot = await dispatch(updateSpot(newSpot));
+        dispatch(createSpotImageThunk(updatedSpot.id, previewImage, true))
+
+        history.push(`/spots/${newSpot.id}/edit`);
       } catch (error) {
         const data = await error.json();
         if (data && data.errors) {
@@ -53,7 +56,6 @@ const SpotForm = ({spot, formType}) => {
       }
     } else if (formType === 'Create A New Spot') {
       try {
-        console.log('IN THE COMPONENT', spot.id)
         const createdSpot = await dispatch(createSpot(newSpot));
         dispatch(createSpotImageThunk(createdSpot.id, previewImage, true))
         dispatch(createSpotImageThunk(createdSpot.id, imageUrlA, false))

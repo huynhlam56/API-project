@@ -21,6 +21,7 @@
 #login-sign-up-buttons {
     display: flex;
     flex-direction: row-reverse;
+    gap: 7px;
 }
 
 .open-menu-container {

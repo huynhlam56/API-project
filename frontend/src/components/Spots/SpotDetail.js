@@ -29,20 +29,24 @@ export const SpotDetail = () => {
   }
 
 
+  const compareReviewDates = (reviewA, reviewB) => {
+    const dateA = new Date(reviewA.createdAt);
+    const dateB = new Date(reviewB.createdAt);
+    return dateB - dateA; // Sort in descending order (newest to oldest)
+  };
 
   const addReviews = () => {
-
     if(Object.keys(sessionUser).length !== 0 && sessionUser.id !== spot?.ownerId && Object.values(allReviews).length === 0 ) {
-    return (
-      <div>
-        <h2>Be the first to write a review!</h2>
-        <OpenModalButton
-          buttonText="Post Your Review"
-          modalComponent={<CreateReviewFormModal />}
-        />
-      </div>
-    )
-  }
+      return (
+        <div>
+          <h2>Be the first to write a review!</h2>
+          <OpenModalButton
+            buttonText="Post Your Review"
+            modalComponent={<CreateReviewFormModal />}
+          />
+        </div>
+      )
+    }
     let userReview = false
     for(let i = 0; i < Object.values(allReviews).length; i++) {
       let review = Object.values(allReviews)[i]
@@ -51,26 +55,20 @@ export const SpotDetail = () => {
         userReview = true
       }
     }
-      return (
-        <div>
-          {Object.values(allReviews).map((review) => (showReviews(review)))}
-          {
-            !userReview && sessionUser.id !== spot?.ownerId ?
-            <OpenModalButton
-              buttonText="Post Your Review"
-              modalComponent={<CreateReviewFormModal />}
-            />
-            :
-            null
-
-          }
-        </div>
-      )
-// if the current user has not made a review for the spot, and they are not the owner of the spot
-// then show a button that will allow them to post a review. If they already made a review for a spot
-//that they do not own, then the button should be hidden.
-
-
+    return (
+      <div>
+        {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
+        {
+          !userReview && sessionUser.id !== spot?.ownerId ?
+          <OpenModalButton
+            buttonText="Post Your Review"
+            modalComponent={<CreateReviewFormModal />}
+          />
+          :
+          null
+        }
+      </div>
+    )
   }
 
   const showReviews = (review) => {
@@ -94,11 +92,6 @@ export const SpotDetail = () => {
     )
   }
 
-  const compareReviewDates = (reviewA, reviewB) => {
-    const dateA = new Date(reviewA.createdAt);
-    const dateB = new Date(reviewB.createdAt);
-    return dateB - dateA; // Sort in descending order (newest to oldest)
-  };
 
   if(!spot) return null
 
@@ -107,7 +100,9 @@ export const SpotDetail = () => {
       <h1>{spot.name}</h1>
       <p>{spot.city} {spot.state}, {spot.country}</p>
       {spot.SpotImages && spot.SpotImages.map(spotImage => (
-        <img className="main-image" src={spotImage.url}/>
+        <div className="spot-images-container">
+          <img className="main-image" src={spotImage.url}/>
+        </div>
       ))}
       <div className="detail-container">
         <div className="host-description-container">
@@ -115,7 +110,7 @@ export const SpotDetail = () => {
           <p className="host-description-p1">{spot.description}</p>
         </div>
         <div className="callout-box">
-          <p>★{spot.avgStarRating}</p>
+          <p>★{spot.avgStarRating?.toFixed(1)}</p>
           <p>${spot.price} night</p>
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
@@ -126,15 +121,6 @@ export const SpotDetail = () => {
         {
           addReviews()
         }
-        {
-        /* {
-          Object.values(allReviews).length > 0 ?
-          Object.values(allReviews)
-          .sort(compareReviewDates)
-          .map((review) => (showReviews(review)))
-          :
-          firstReview()
-        } */}
       </ul>
     </div>
       <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
