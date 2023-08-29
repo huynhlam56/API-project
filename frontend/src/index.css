@@ -5,6 +5,15 @@
 
 }
 
+.spot-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .preview-images {
     width: 300px;
     height: 250px;
@@ -64,8 +73,13 @@ a {
     justify-content: space-between;
 }
 
+.host-description-p {
+    font-size: 25px;
+    margin-top: 0px;
+}
 .host-description-p1 {
     font-size: 20px;
+    margin-top: 0px;
 }
 
 .callout-box {
@@ -74,6 +88,25 @@ a {
     padding: 20px;
     width: auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.price-rating-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 45px;
+}
+
+.price {
+    font-size: 25px;
+}
+
+.night {
+    font-size: 18px;
+}
+
+.review-count-rating {
+    font-size: 10px;
 }
 
 .detail-container {
@@ -90,6 +123,25 @@ a {
 
 .reserve-button {
     background-color: #ff5361;
+    width: -webkit-fill-available;
+}
+
+.each-review{
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.reviewer-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+.review-date {
+    font-weight: lighter;
+    color: rgb(86, 85, 85);
+    margin-top: 0px;
+
 }
 
 h3 {
@@ -221,4 +273,8 @@ textarea {
 
 .manage-spots-container {
     display: flex;
+}
+
+.display-review-rating-count {
+    font-size: 20px;
 }
