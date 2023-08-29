@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getSpotDetailThunk } from "../../store/spots";
 import SpotForm from "../CreateSpot/SpotForm";
 import ConfirmationModal from "../RemoveSpot/ConfirmationModal";
-import { loadAllReviewsThunk } from "../../store/reviews";
+import { deleteReviewThunk, loadAllReviewsThunk } from "../../store/reviews";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewFormModal from "../Reviews/CreateReviewFormModal";
@@ -19,11 +19,20 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
+  // const [deleteReviews, setDeleteReviews] = useState(allReviews)
 
+  console.log(Object.keys(sessionUser).length)
   useEffect(() => {
+
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
-  }, [dispatch])
+
+    // return() => {
+    //   if (deleteReviews !== null) {
+    //     dispatch(deleteReviewThunk(deleteReviews))
+    //   }
+    // }
+  }, [dispatch, spotId])
 
   const handleClickReserveButton = () => {
     alert('Feature coming soon!')
@@ -58,7 +67,7 @@ export const SpotDetail = () => {
       <div>
         {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
         {
-          !userReview && sessionUser.id !== spot?.ownerId
+          Object.keys(sessionUser).length !== 0 && !userReview && sessionUser.id !== spot?.ownerId
           ?
           <OpenModalButton
             className='post-review-button'
@@ -77,11 +86,11 @@ export const SpotDetail = () => {
     const newDate = dateObj.toDateString()
 
     return (
-      <li key={review.id}>
+      <li  className="each-review" key={review.id}>
         <div>
-          <p>{review.review}</p>
-          <p>{newDate}</p>
-          <p>{`${review.User.firstName} ${review.User.lastName}`}</p>
+          <p className="reviewer-name">{`${review.User.firstName} ${review.User.lastName}`}</p>
+          <p className="review-date">{newDate}</p>
+          <p className="review">{review.review}</p>
         </div>
         {Object.keys(sessionUser).length !== 0 && sessionUser.id === review.userId
           ?
@@ -95,7 +104,7 @@ export const SpotDetail = () => {
 
   const reviewCount = () => {
     if (spot.numReviews === 1) {
-      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
+      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
     }else if(spot.numReviews === 0) {
       return <h2>★ New</h2>
     }else {
@@ -107,7 +116,7 @@ export const SpotDetail = () => {
 
   return (
     <div className="spot-detail-page">
-      <h1>{spot.name}</h1>
+      <h1 className="spot-name">{spot.name}</h1>
       <p>{spot.city} {spot.state}, {spot.country}</p>
       {spot.SpotImages && spot.SpotImages.map(spotImage => (
         <div className="spot-images-container">
@@ -116,12 +125,14 @@ export const SpotDetail = () => {
       ))}
       <div className="detail-container">
         <div className="host-description-container">
-          <p className="host-description-p">Hosted by: {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
+          <p className="host-description-p">Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
           <p className="host-description-p1">{spot.description}</p>
         </div>
         <div className="callout-box">
-          <p className="review-count-rating">{reviewCount()}</p>
-          <p>${spot.price} night</p>
+          <div className="price-rating-container">
+            <p className="night"><span className="price">${spot.price}</span> night</p>
+            <p className="review-count-rating">{reviewCount()}</p>
+          </div>
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
       </div>
@@ -133,7 +144,6 @@ export const SpotDetail = () => {
         }
       </ul>
     </div>
-      <button onClick={handleClickReserveButton} className="reserve-button">Reserve</button>
     </div>
   )
 }
