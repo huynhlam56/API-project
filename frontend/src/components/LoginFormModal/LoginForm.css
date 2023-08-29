@@ -3,6 +3,9 @@ h1 {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 form {
@@ -35,18 +38,17 @@ button[type="submit"] {
 }
 
 button {
-    margin-top: 10px;
     padding: 8px 16px;
     font-size: 14px;
-    background-color: #f0f0f0;
+    background-color: #f7d4f4;
     color: #333;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #e0e0e0;
+    background-color: #b088bc;
 }
 
 ul {
@@ -57,7 +59,7 @@ ul {
     position: absolute;
     background-color: white;
     border-radius: 25px;
-    border: 2px solid #73AD21;
+    border: 2px solid #dba9d6;
     padding: 20px;
     width: 200px;
     display: flex;
@@ -68,6 +70,13 @@ ul {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px;
+    background-color: #f5c2f1;
+    color: black;
+}
+
+#log-in-as-user-button:hover {
+    background-color: #be8ec4;
 }
 
 button:disabled,

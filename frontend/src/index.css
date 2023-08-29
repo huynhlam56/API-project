@@ -72,8 +72,7 @@ a {
     border-radius: 25px;
     border: 0px solid rgb(109, 109, 109);
     padding: 20px;
-    width: 200px;
-    height: 150px;
+    width: auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -162,12 +161,64 @@ h3 {
     height: 350px;
 }
 
-.update-create-form {
+.inputBox {
     display: flex;
+    align-content: center;
+    align-items: center;
     flex-direction: column;
-    align-items: baseline;
 }
 
 .spots-page{
     padding: 0px;
+}
+
+.create-update-button {
+    margin-top: 10px;
+}
+
+.post-review-button {
+    border-radius: 10px;
+}
+
+.update-create-form-input {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: stretch;
+    gap: 10px
+}
+
+.section-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.section-container section {
+    display: flex;
+}
+
+textarea {
+    width: 400px;
+    height: 150px
+
+}
+
+.remove-spot-button {
+    background-color: rgb(240, 124, 124);
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.update-spot-button {
+    background-color: rgb(237, 225, 241);
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.manage-spots-container {
+    display: flex;
 }

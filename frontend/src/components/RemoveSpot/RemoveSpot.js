@@ -25,7 +25,7 @@ const RemoveSpot = ({ spot }) => {
 
   return(
     <div>
-      <button onClick={handleRemmoveSpot}>Delete</button>
+      <button className='remove-spot-button' onClick={handleRemmoveSpot}>Delete</button>
 
       {showConfirmation && (
         <ConfirmationModal

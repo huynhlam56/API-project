@@ -44,17 +44,18 @@ function ProfileButton({ user, spot }) {
     history.push(`/spots/current`)
   }
   return (
-    <div className="open-menu-container">
+    <div className="nav-bar">
+      <div className="create-new-spot-button">
+        <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
+      </div>
+      <div className="open-menu-container">
       <button className='menu-button' onClick={openMenu}>
         <i className="fa-solid fa-bars" />
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         <li>Hello, {user.username}!</li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
-        </li>
+        <li className="user-email">{user.email}</li>
         <li>
           <button onClick={handleClickNavigateToManageSpot} className="manage-spots-button">Manage Spots</button>
         </li>
@@ -63,6 +64,7 @@ function ProfileButton({ user, spot }) {
         </li>
       </ul>
     </div>
+  </div>
   );
 }
 
