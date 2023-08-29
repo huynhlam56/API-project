@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getSpotDetailThunk } from "../../store/spots";
 import SpotForm from "../CreateSpot/SpotForm";
 import ConfirmationModal from "../RemoveSpot/ConfirmationModal";
-import { loadAllReviewsThunk } from "../../store/reviews";
+import { deleteReviewThunk, loadAllReviewsThunk } from "../../store/reviews";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewFormModal from "../Reviews/CreateReviewFormModal";
@@ -19,11 +19,20 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
+  // const [deleteReviews, setDeleteReviews] = useState(allReviews)
 
+  console.log(Object.keys(sessionUser).length)
   useEffect(() => {
+
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
-  }, [dispatch])
+
+    // return() => {
+    //   if (deleteReviews !== null) {
+    //     dispatch(deleteReviewThunk(deleteReviews))
+    //   }
+    // }
+  }, [dispatch, spotId])
 
   const handleClickReserveButton = () => {
     alert('Feature coming soon!')
@@ -58,7 +67,7 @@ export const SpotDetail = () => {
       <div>
         {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
         {
-          !userReview && sessionUser.id !== spot?.ownerId
+          Object.keys(sessionUser).length !== 0 && !userReview && sessionUser.id !== spot?.ownerId
           ?
           <OpenModalButton
             className='post-review-button'
