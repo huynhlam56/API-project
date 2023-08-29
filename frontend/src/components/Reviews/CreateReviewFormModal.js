@@ -41,7 +41,7 @@ function CreateReviewFormModal() {
   return (
 
     <div>
-      <h2>How was your stay?</h2>
+      <h2 className="create-review-title">How was your stay?</h2>
       <form onSubmit={handleSubmitReview}>
         <textarea
           name='text'
@@ -53,16 +53,16 @@ function CreateReviewFormModal() {
           required >
         </textarea>
         {errors.review && <p>{errors.review}</p>}
-      <div>
-        <h3>
-          Stars
-        </h3>
-          <StarRating
-            stars={stars}
-            onClickStars={(index) => onClick(index)}
-          />
-      </div>
-        <button onSubmit={handleSubmitReview} disabled={review.length < 10 || stars === 0} type="submit">Submit Your Review</button>
+        <div id="star-buttons">
+          <h3 className="star-word">
+            Stars
+          </h3>
+            <StarRating
+              stars={stars}
+              onClickStars={(index) => onClick(index)}
+            />
+        </div>
+        <button className='submit-review-button' onSubmit={handleSubmitReview} disabled={review.length < 10 || stars === 0} type="submit">Submit Your Review</button>
       </form>
     </div>
   )

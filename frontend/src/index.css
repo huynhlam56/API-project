@@ -86,6 +86,7 @@ a {
     border-radius: 25px;
     border: 0px solid rgb(109, 109, 109);
     padding: 20px;
+    padding-top: 0px;
     width: auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -99,6 +100,7 @@ a {
 
 .price {
     font-size: 25px;
+    font-weight: bold;
 }
 
 .night {
@@ -114,6 +116,8 @@ a {
     flex-direction: row;
     justify-content: space-between;
     font-size: 20px;
+    border-bottom: 1px solid;
+    padding-bottom: 20px;
 }
 
 .host-description-container {
@@ -124,6 +128,7 @@ a {
 .reserve-button {
     background-color: #ff5361;
     width: -webkit-fill-available;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;;
 }
 
 .each-review{
@@ -151,8 +156,6 @@ h3 {
 
 .star-rating{
     background-color: transparent;
-    border: none;
-    outline: none;
     cursor: pointer;
 }
 
@@ -273,8 +276,55 @@ textarea {
 
 .manage-spots-container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 30px;
+}
+
+.manage-spots {
+    position: relative;
+    display: inline-block;
+    padding: 0px;
+    width: 300px;
+    height: 350px;
+}
+
+.manage-spots-img {
+    width: 300px;
+    height: 250px;
+    border-radius: 10px;
+    border: 0px solid;
+    padding: 0px;
+}
+
+li{
+    list-style: none;
+}
+
+.update-remove-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
 }
 
 .display-review-rating-count {
     font-size: 20px;
+}
+
+#star-buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 15px;
+    gap: 10px;
+  }
+
+.create-review-title {
+    display: flex;
+    justify-content: center;
+}
+
+.create-new-spot-button-in-manage-form {
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }

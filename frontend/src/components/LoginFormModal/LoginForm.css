@@ -61,7 +61,6 @@ ul {
     border-radius: 25px;
     border: 2px solid #dba9d6;
     padding: 20px;
-    width: 200px;
     display: flex;
     flex-direction: column;
 }
