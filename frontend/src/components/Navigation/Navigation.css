@@ -108,11 +108,14 @@ i.fa-solid.fa-plane-arrival{
 }
 
 .new-spot-button {
-    background-color: #f0e1ee;
-    color: rgb(0, 0, 0);
+    background-color: transparent;
+    font-weight: bold;
+    color: rgb(12, 12, 12);
     border-radius: 20px;
+    padding-right: 20px;
+    gap: 20px;
 }
 
 .new-spot-button:hover {
-    background-color: #be8ec4 ;
+    background-color: #e9cfed ;
 }

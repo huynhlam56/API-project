@@ -81,6 +81,16 @@ export const SpotDetail = () => {
     )
   }
 
+  const reviewCount = () => {
+    if (spot.numReviews === 1) {
+      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
+    }else if(spot.numReviews === 0) {
+      return <h2>★ New</h2>
+    }else {
+      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Reviews</h2>
+    }
+  }
+
   const showReviews = (review) => {
     const dateObj = new Date(review.createdAt)
     const newDate = dateObj.toDateString()
@@ -91,26 +101,19 @@ export const SpotDetail = () => {
           <p className="reviewer-name">{`${review.User.firstName} ${review.User.lastName}`}</p>
           <p className="review-date">{newDate}</p>
           <p className="review">{review.review}</p>
+          <p>
+            {Object.keys(sessionUser).length !== 0 && sessionUser.id === review.userId
+            ?
+            <RemoveReview review={review}/>
+            :
+            null
+            }
+          </p>
         </div>
-        {Object.keys(sessionUser).length !== 0 && sessionUser.id === review.userId
-          ?
-          <RemoveReview review={review}/>
-          :
-          null
-        }
       </li>
     )
   }
 
-  const reviewCount = () => {
-    if (spot.numReviews === 1) {
-      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
-    }else if(spot.numReviews === 0) {
-      return <h2>★ New</h2>
-    }else {
-      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Reviews</h2>
-    }
-  }
 
   if(!spot) return null
 
@@ -136,14 +139,12 @@ export const SpotDetail = () => {
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
       </div>
-    <div>
-      {reviewCount()}
-      <ul>
-        {
-          addReviews()
-        }
-      </ul>
-    </div>
+      <div className="rating-container">
+        {reviewCount()}
+        <ul>
+          {addReviews()}
+        </ul>
+      </div>
     </div>
   )
 }

@@ -46,7 +46,7 @@ function ProfileButton({ user, spot }) {
   return (
     <div className="nav-bar">
       <div className="create-new-spot-button">
-        <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a new spot</button>
+        <button onClick={handleClickNavigateToForm} className="new-spot-button">Create a New Spot</button>
       </div>
       <div className="open-menu-container">
       <button className='menu-button' onClick={openMenu}>
