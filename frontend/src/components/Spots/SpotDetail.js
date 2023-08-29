@@ -11,6 +11,7 @@ import CreateReviewFormModal from "../Reviews/CreateReviewFormModal";
 import RemoveReview from "../Reviews/RemoveReview";
 
 
+
 export const SpotDetail = () => {
   const dispatch = useDispatch()
   const spot = useSelector(state => state.spots.singleSpot)
@@ -28,11 +29,10 @@ export const SpotDetail = () => {
     alert('Feature coming soon!')
   }
 
-
   const compareReviewDates = (reviewA, reviewB) => {
     const dateA = new Date(reviewA.createdAt);
     const dateB = new Date(reviewB.createdAt);
-    return dateB - dateA; // Sort in descending order (newest to oldest)
+    return dateB - dateA;
   };
 
   const addReviews = () => {
@@ -51,7 +51,6 @@ export const SpotDetail = () => {
     for(let i = 0; i < Object.values(allReviews).length; i++) {
       let review = Object.values(allReviews)[i]
       if(sessionUser?.id === review?.userId) {
-        console.log('TRUE')
         userReview = true
       }
     }
@@ -59,8 +58,10 @@ export const SpotDetail = () => {
       <div>
         {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
         {
-          !userReview && sessionUser.id !== spot?.ownerId ?
+          !userReview && sessionUser.id !== spot?.ownerId
+          ?
           <OpenModalButton
+            className='post-review-button'
             buttonText="Post Your Review"
             modalComponent={<CreateReviewFormModal />}
           />
@@ -92,6 +93,15 @@ export const SpotDetail = () => {
     )
   }
 
+  const reviewCount = () => {
+    if (spot.numReviews === 1) {
+      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
+    }else if(spot.numReviews === 0) {
+      return <h2>★ New</h2>
+    }else {
+      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Reviews</h2>
+    }
+  }
 
   if(!spot) return null
 
@@ -110,13 +120,13 @@ export const SpotDetail = () => {
           <p className="host-description-p1">{spot.description}</p>
         </div>
         <div className="callout-box">
-          <p>★{parseFloat(spot.avgStarRating)?.toFixed(1)}</p>
+          <p className="review-count-rating">{reviewCount()}</p>
           <p>${spot.price} night</p>
           <button className='reserve-button' onClick={handleClickReserveButton}>Reserve</button>
         </div>
       </div>
     <div>
-      <h2>Reviews</h2>
+      {reviewCount()}
       <ul>
         {
           addReviews()

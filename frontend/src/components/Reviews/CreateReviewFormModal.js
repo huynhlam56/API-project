@@ -62,7 +62,7 @@ function CreateReviewFormModal() {
             onClickStars={(index) => onClick(index)}
           />
       </div>
-        <button onSubmit={handleSubmitReview} type="submit">Submit Your Review</button>
+        <button onSubmit={handleSubmitReview} disabled={review.length < 10 || stars === 0} type="submit">Submit Your Review</button>
       </form>
     </div>
   )

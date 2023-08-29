@@ -28,7 +28,7 @@ const RemoveReview = ({ review }) => {
 
   return(
     <div>
-      <button onClick={handleRemoveReview}>Delete</button>
+      <button className='delete-button' onClick={handleRemoveReview}>Delete</button>
 
       {showConfirmation && (
         <ConfirmationModalReview

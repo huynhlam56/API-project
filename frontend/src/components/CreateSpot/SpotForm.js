@@ -78,75 +78,81 @@ const SpotForm = ({spot, formType}) => {
     <div className="inputBox">
       <h1>{formType}</h1>
       <form className='update-create-form'onSubmit={handleSubmit}>
-        <section>
-        <h2>Where's your place located?</h2>
-        <p>Guests will only get your exact address once they booked a reservation.</p>
-          <input
-            type='text'
-            onChange={(e) => setAddress(e.target.value)}
-            value={address}
-            placeholder="address"
-            name='address'
-            required
-          />
-         {errors.address && <p className="error-message">*{errors.address}*</p>}
-          <input
-            type='text'
-            onChange={(e) => setCity(e.target.value)}
-            value={city}
-            placeholder="city"
-            name='city'
-            required
-          />
-           {errors.city && <p className="error-message">*{errors.city}*</p>}
-          <input
-            type='text'
-            onChange={(e) => setState(e.target.value)}
-            value={state}
-            placeholder="state"
-            name='state'
-            required
-          />
-           {errors.state && <p className="error-message">*{errors.state}*</p>}
-          <input
-            type='text'
-            onChange={(e) => setCountry(e.target.value)}
-            value={country}
-            placeholder="country"
-            name='country'
-            required
-          />
-           {errors.country && <p className="error-message">*{errors.country}*</p>}
-          <input
-            type='text'
-            onChange={(e) => setLat(e.target.value)}
-            value={lat}
-            placeholder="latitude"
-            name='latitude'
-            required
-          />
-           {errors.lat && <p className="error-message">*{errors.lat}*</p>}
-          <input
-            type='text'
-            onChange={(e) => setLng(e.target.value)}
-            value={lng}
-            placeholder="longitude"
-            name='longitude'
-            required
-          />
-           {errors.lng && <p className="error-message">*{errors.lng}*</p>}
-        </section>
+        <div className="sections-container">
+          <section>
+          <h2>Where's your place located?</h2>
+          <p>Guests will only get your exact address once they booked a reservation.</p>
+            <div className="update-create-form-input">
+              <input
+                type='text'
+                onChange={(e) => setAddress(e.target.value)}
+                value={address}
+                placeholder="Street Address"
+                name='address'
+                required
+              />
+              {errors.address && <p className="error-message">*{errors.address}*</p>}
+              <input
+                type='text'
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+                placeholder="City"
+                name='city'
+                required
+              />
+              {errors.city && <p className="error-message">*{errors.city}*</p>}
+              <input
+                type='text'
+                onChange={(e) => setState(e.target.value)}
+                value={state}
+                placeholder="State"
+                name='state'
+                required
+              />
+              {errors.state && <p className="error-message">*{errors.state}*</p>}
+              <input
+                type='text'
+                onChange={(e) => setCountry(e.target.value)}
+                value={country}
+                placeholder="Country"
+                name='country'
+                required
+              />
+              {errors.country && <p className="error-message">*{errors.country}*</p>}
+              <input
+                type='text'
+                onChange={(e) => setLat(e.target.value)}
+                value={lat}
+                placeholder="Latitude"
+                name='latitude'
+                required
+              />
+              {errors.lat && <p className="error-message">*{errors.lat}*</p>}
+              <input
+                type='text'
+                onChange={(e) => setLng(e.target.value)}
+                value={lng}
+                placeholder="Longitude"
+                name='longitude'
+                required
+              />
+              {errors.lng && <p className="error-message">*{errors.lng}*</p>}
+            </div>
+          </section>
         <section>
           <h2>Describe your place to guests</h2>
-          <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-          <input
-            type='text'
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            placeholder="Please write at least 30 characters."
-            name='description'
-            required
-          />
+          <p className="input-description">Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+          <div className="update-create-form-input">
+            <textarea className='description-textbox' rows='4' col='5'
+              type='text'
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              placeholder="Please write at least 30 characters."
+              name='description'
+              required
+              />
+            {errors.description && <p className="error-message">*{errors.description}</p>}
+          </div>
         </section>
         <section>
           <h2>Create a title for your spot</h2>
@@ -158,7 +164,7 @@ const SpotForm = ({spot, formType}) => {
             placeholder="Name of your spot"
             name='name'
             required
-          />
+            />
           {errors.name && <p className="error-message">*{errors.name}*</p>}
         </section>
         <section>
@@ -177,38 +183,41 @@ const SpotForm = ({spot, formType}) => {
         <section>
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot</p>
-          <input
-          type='text'
-          placeholder="Preview Image URL"
-          value={previewImage}
-          onChange={(e) => setPreviewImage(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder="Image URL"
-            value={imageUrlA}
-            onChange={(e) => setImageUrlA(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder="Image URL"
-            value={imageUrlB}
-            onChange={(e) => setImageUrlB(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder="Image URL"
-            value={imageUrlC}
-            onChange={(e) => setImageUrlC(e.target.value)}
-          />
-          <input
-            type='text'
-            placeholder="Image URL"
-            value={imageUrlD}
-            onChange={(e) => setImageUrlD(e.target.value)}
-          />
+          <div className="update-create-form-input">
+            <input
+            type='url'
+            placeholder="Preview Image URL"
+            value={previewImage}
+            onChange={(e) => setPreviewImage(e.target.value)}
+            />
+            <input
+              type='url'
+              placeholder="Image URL"
+              value={imageUrlA}
+              onChange={(e) => setImageUrlA(e.target.value)}
+              />
+            <input
+              type='url'
+              placeholder="Image URL"
+              value={imageUrlB}
+              onChange={(e) => setImageUrlB(e.target.value)}
+              />
+            <input
+              type='url'
+              placeholder="Image URL"
+              value={imageUrlC}
+              onChange={(e) => setImageUrlC(e.target.value)}
+              />
+            <input
+              type='url'
+              placeholder="Image URL"
+              value={imageUrlD}
+              onChange={(e) => setImageUrlD(e.target.value)}
+            />
+          </div>
         </section>
-      <button onSubmit={handleSubmit} type='submit'>{formType}</button>
+      </div>
+        <button className="create-update-button" onSubmit={handleSubmit} type='submit'>{formType === 'Create A New Spot' ? 'Create Spot' : 'Update Spot'}</button>
       </form>
     </div>
   )
