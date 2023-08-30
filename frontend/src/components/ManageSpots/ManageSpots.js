@@ -28,16 +28,18 @@ const ManageSpots = () => {
     return (
         <div>
             <h2>Manage Spots</h2>
-            <button className='create-new-spot-button-in-manage-form' onClick={handleCreateSpot}>Create a New Spot</button>
             <div className="manage-spots-container">
                 {userSpots && Object.values(userSpots)?.length !== 0 ? Object.values(userSpots)?.map((spot) => (
                     <div className="manage-spots">
                         <li key={spot.id} >
-                            <h1>{spot.name}</h1>
+                            <h1 className="manage-spot-name">{spot.name}</h1>
                             <img className='manage-spots-img' src={spot.previewImage} />
                             <p>★ {spot.avgRating}</p>
                             <p>{spot.city}, {spot.state}</p>
-                            <p>${spot.price} night</p>
+                            <p>
+                                <strong>${spot.price} </strong>
+                                night
+                            </p>
                             <div className="update-remove-buttons">
                                 <button className='update-spot-button' data-id={spot.id} onClick={handleUpdateBtn}>Update Spot</button>
                                 <RemoveSpot spot={spot} />
@@ -46,8 +48,7 @@ const ManageSpots = () => {
                     </div>
                 ))
                 :
-                <button onClick={handleCreateSpot}>Create A New Spot</button>
-
+                <button className='create-new-spot-button-in-manage-form' onClick={handleCreateSpot}>Create A New Spot</button>
                 }
             </div>
         </div>
