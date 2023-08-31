@@ -19,6 +19,13 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
+  const [count, setCount] = useState(spot.numReviews);
+
+  useEffect(() => {
+    if (spot.numReviews !== undefined) {
+      setCount(spot.numReviews);
+    }
+  }, [spot.numReviews]);
 
   useEffect(() => {
 
@@ -63,7 +70,7 @@ export const SpotDetail = () => {
           <OpenModalButton
             className='post-review-button'
             buttonText="Post Your Review"
-            modalComponent={<CreateReviewFormModal />}
+            modalComponent={<CreateReviewFormModal  count={count} setCount={setCount}/>}
           />
           :
           null
@@ -74,12 +81,12 @@ export const SpotDetail = () => {
   }
 
   const reviewCount = () => {
-    if (spot.numReviews === 1) {
-      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Review</h2>
-    }else if(spot.numReviews === 0) {
+    if (count === 1) {
+      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {count} Review</h2>
+    }else if(count === 0) {
       return <h2>★ New</h2>
     }else {
-      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {spot.numReviews} Reviews</h2>
+      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {count} Reviews</h2>
     }
   }
 
