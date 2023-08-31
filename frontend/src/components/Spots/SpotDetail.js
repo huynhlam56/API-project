@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom'
-import { getSpotDetailThunk } from "../../store/spots";
+import spotsReducer, { getSpotDetailThunk } from "../../store/spots";
 import SpotForm from "../CreateSpot/SpotForm";
 import ConfirmationModal from "../RemoveSpot/ConfirmationModal";
 import { deleteReviewThunk, loadAllReviewsThunk } from "../../store/reviews";
@@ -19,19 +19,11 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
-  // const [deleteReviews, setDeleteReviews] = useState(allReviews)
 
-  console.log(Object.keys(sessionUser).length)
   useEffect(() => {
 
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
-
-    // return() => {
-    //   if (deleteReviews !== null) {
-    //     dispatch(deleteReviewThunk(deleteReviews))
-    //   }
-    // }
   }, [dispatch, spotId])
 
   const handleClickReserveButton = () => {
@@ -65,7 +57,6 @@ export const SpotDetail = () => {
     }
     return (
       <div>
-        {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
         {
           Object.keys(sessionUser).length !== 0 && !userReview && sessionUser.id !== spot?.ownerId
           ?
@@ -77,6 +68,7 @@ export const SpotDetail = () => {
           :
           null
         }
+        {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
       </div>
     )
   }
@@ -115,20 +107,30 @@ export const SpotDetail = () => {
   }
 
 
-  if(!spot) return null
+  if(Object.keys(spot).length === 0) return null
 
   return (
     <div className="spot-detail-page">
       <h1 className="spot-name">{spot.name}</h1>
       <p>{spot.city} {spot.state}, {spot.country}</p>
-      {spot.SpotImages && spot.SpotImages.map(spotImage => (
-        <div className="spot-images-container">
-          <img className="main-image" src={spotImage.url}/>
+      <div className="spot-images-container">
+        <div className="main-image">
+          <img className="big-image" src={spot.SpotImages.previewImage}/>
         </div>
-      ))}
+        <div className="small-img-container">
+          <div className="cols-small-images">
+            <img className="small-image" src={spot.SpotImages.smallImages[0]}/>
+            <img className="small-image" src={spot.SpotImages.smallImages[1]}/>
+          </div>
+          <div className="rows-small-images">
+            <img className="small-image" src={spot.SpotImages.smallImages[2]}/>
+            <img className="small-image" src={spot.SpotImages.smallImages[3]}/>
+          </div>
+        </div>
+      </div>
       <div className="detail-container">
         <div className="host-description-container">
-          <p className="host-description-p">Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
+          <p className="host-description-p">Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</p>
           <p className="host-description-p1">{spot.description}</p>
         </div>
         <div className="callout-box">

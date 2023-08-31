@@ -157,9 +157,20 @@ const spotsReducer = (state = intialState, action) => {
       return { ...state, userSpots: spots}
     case SPOT_DETAIL:
       const singleSpot = action.spot;
-      return {...state, singleSpot}
+      const previewImage = singleSpot.SpotImages.find(image => image.preview === true)
+       return {
+    ...state,
+    singleSpot: {
+      ...singleSpot,
+      SpotImages: {
+        ...state.singleSpot.SpotImages,
+        previewImage: previewImage ? previewImage.url : null,
+        smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
+      },
+    },
+  };
     case CREATE_SPOT:
-      return {...state, singleSpot: {...action.spot, SpotImages: []}, [action.spot.id]: action.spot }
+      return {...state, singleSpot: {...action.spot, SpotImages: {}}, [action.spot.id]: action.spot }
     case UPDATE_SPOT:
       return {...state, [action.spot.id]: action.spot}
     case REMOVE_SPOT:
@@ -167,7 +178,8 @@ const spotsReducer = (state = intialState, action) => {
       delete newState[action.spotId]
       return newState
     case CREATE_SPOT_IMAGES:
-      return {...state, singleSpot: {...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.spotImgData]}}
+      const previewImage1 = action.spotImgData?.find(image => image.preview === true)
+      return {...state, singleSpot: {...state.singleSpot, SpotImages: {...state.singleSpot.SpotImages, previewImage: previewImage1, smallImages: action.spotImgData?.filter((image) => image.preview === false)}}}
     default:
       return state;
   }
