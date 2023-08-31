@@ -76,7 +76,6 @@ const reviewsReducer = (state = initialState, action) => {
       })
       return {spot: reviewsState}
     case CREATE_REVIEW:
-      console.log(state)
       return {...state, spot:{...state.spot, [action.payload.review.id]: {...action.payload.review, User: action.payload.user}}}
     case DELETE_REVIEW:
       const newState = {...state}

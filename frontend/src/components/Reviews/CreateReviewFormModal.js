@@ -5,8 +5,9 @@ import { createReviewThunk } from "../../store/reviews";
 import { StarRating } from "./StarRating";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
-function CreateReviewFormModal() {
+function CreateReviewFormModal({ count, setCount}) {
   const dispatch = useDispatch()
   const [review, setReview] = useState("")
   const [stars, setStars] = useState(0)
@@ -19,6 +20,7 @@ function CreateReviewFormModal() {
     setStars(index)
   }
 
+
   const handleSubmitReview = (e) => {
     e.preventDefault()
     dispatch(createReviewThunk(
@@ -26,8 +28,9 @@ function CreateReviewFormModal() {
       user,
       review,
       stars
-    ))
-    .then(() => {
+      ))
+      .then(() => {
+      setCount(count + 1)
       closeModal()
     })
     .catch(async(res) => {
