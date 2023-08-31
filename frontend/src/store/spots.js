@@ -158,17 +158,17 @@ const spotsReducer = (state = intialState, action) => {
     case SPOT_DETAIL:
       const singleSpot = action.spot;
       const previewImage = singleSpot.SpotImages.find(image => image.preview === true)
-      return {
-        ...state,
-        singleSpot: {
-          ...singleSpot,
-          SpotImages: {
-            ...state.singleSpot.SpotImages,
-            previewImage: previewImage ? previewImage.url : null,
-            smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
-          },
-        },
-      };
+       return {
+    ...state,
+    singleSpot: {
+      ...singleSpot,
+      SpotImages: {
+        ...state.singleSpot.SpotImages,
+        previewImage: previewImage ? previewImage.url : null,
+        smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
+      },
+    },
+  };
     case CREATE_SPOT:
       return {...state, singleSpot: {...action.spot, SpotImages: {}}, [action.spot.id]: action.spot }
     case UPDATE_SPOT:

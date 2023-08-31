@@ -19,18 +19,11 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
-  // const [deleteReviews, setDeleteReviews] = useState(allReviews)
 
   useEffect(() => {
 
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
-
-    // return() => {
-    //   if (deleteReviews !== null) {
-    //     dispatch(deleteReviewThunk(deleteReviews))
-    //   }
-    // }
   }, [dispatch, spotId])
 
   const handleClickReserveButton = () => {
@@ -64,7 +57,6 @@ export const SpotDetail = () => {
     }
     return (
       <div>
-        {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
         {
           Object.keys(sessionUser).length !== 0 && !userReview && sessionUser.id !== spot?.ownerId
           ?
@@ -76,6 +68,7 @@ export const SpotDetail = () => {
           :
           null
         }
+        {Object.values(allReviews).sort(compareReviewDates).map((review) => (showReviews(review)))}
       </div>
     )
   }
