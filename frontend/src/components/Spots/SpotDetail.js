@@ -18,12 +18,19 @@ export const SpotDetail = () => {
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
   const [count, setCount] = useState(spot.numReviews);
+  const [newStarRating, setNewStarRating] = useState(spot.avgStarRating)
+
+  console.log(newStarRating)
 
   useEffect(() => {
     if (spot.numReviews !== undefined) {
       setCount(spot.numReviews);
     }
-  }, [spot.numReviews]);
+    if(spot.avgStarRating !== undefined) {
+      setNewStarRating(spot.avgStarRating)
+    }
+  }, [spot.numReviews, spot.avgStarRating]);
+
 
   useEffect(() => {
     dispatch(getSpotDetailThunk(spotId))
@@ -67,7 +74,7 @@ export const SpotDetail = () => {
           <OpenModalButton
             className='post-review-button'
             buttonText="Post Your Review"
-            modalComponent={<CreateReviewFormModal  count={count} setCount={setCount}/>}
+            modalComponent={<CreateReviewFormModal  count={count} setCount={setCount} newStarRating={newStarRating} setNewStarRating={setNewStarRating} />}
           />
           :
           null
@@ -79,11 +86,11 @@ export const SpotDetail = () => {
 
   const reviewCount = () => {
     if (count === 1) {
-      return <h2 className="display-review-rating-count">★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {count} Review</h2>
+      return <h2 className="display-review-rating-count">★ {newStarRating} · {count} Review</h2>
     }else if(count === 0) {
       return <h2>★ New</h2>
     }else {
-      return <h2>★ {parseFloat(spot.avgStarRating)?.toFixed(1)} · {count} Reviews</h2>
+      return <h2>★ {newStarRating} · {count} Reviews</h2>
     }
   }
 

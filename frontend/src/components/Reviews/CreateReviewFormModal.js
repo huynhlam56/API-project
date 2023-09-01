@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 
-function CreateReviewFormModal({ count, setCount}) {
+function CreateReviewFormModal({ count, setCount, newStarRating, setNewStarRating}) {
   const dispatch = useDispatch()
   const [review, setReview] = useState("")
   const [stars, setStars] = useState(0)
@@ -20,7 +20,6 @@ function CreateReviewFormModal({ count, setCount}) {
     setStars(index)
   }
 
-
   const handleSubmitReview = (e) => {
     e.preventDefault()
     dispatch(createReviewThunk(
@@ -30,8 +29,11 @@ function CreateReviewFormModal({ count, setCount}) {
       stars
       ))
       .then(() => {
-      setCount(count + 1)
-      closeModal()
+        const newAvgStarRating = ((spot.avgStarRating * spot.numReviews) + stars) / (spot.numReviews + 1);
+
+        setNewStarRating(newAvgStarRating);
+        setCount(count + 1)
+        closeModal()
     })
     .catch(async(res) => {
       const data = await res.json()

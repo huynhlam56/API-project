@@ -54,7 +54,7 @@ function ProfileButton({ user, spot }) {
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        <li>Hello, {user.username}!</li>
+        <li>Hello, {user.firstName}!</li>
         <li className="user-email">{user.email}</li>
         <li>
           <button onClick={handleClickNavigateToManageSpot} className="manage-spots-button">Manage Spots</button>
