@@ -6,7 +6,7 @@ const SPOT_DETAIL = 'spots/spotDetail'
 const REMOVE_SPOT = 'spots/removeSpot'
 const UPDATE_SPOT = 'spots/updateSpot'
 const LOAD_USER_SPOTS = 'spots/loadUserSpots'
-const CREATE_SPOT_IMAGES = 'spots/createSpotImages'
+const CREATE_SPOT_IMAGE = 'spots/createSpotImage'
 
 
 
@@ -40,8 +40,8 @@ export const loadUsersSpotsAction = (spots) => ({
   spots
 })
 
-export const createSpotImagesAction = (spotImgData) => ({
-  type: CREATE_SPOT_IMAGES,
+export const createSpotImageAction = (spotImgData) => ({
+  type: CREATE_SPOT_IMAGE,
   spotImgData
 })
 
@@ -58,7 +58,7 @@ export const createSpotImageThunk = (spotId, url, preview) => async dispatch => 
   })
   if(response.ok) {
     const spotImgData = await response.json()
-    dispatch(createSpotImagesAction(spotImgData))
+    dispatch(createSpotImageAction(spotImgData))
   }
 }
 
@@ -159,16 +159,16 @@ const spotsReducer = (state = intialState, action) => {
       const singleSpot = action.spot;
       const previewImage = singleSpot.SpotImages.find(image => image.preview === true)
        return {
-    ...state,
-    singleSpot: {
-      ...singleSpot,
-      SpotImages: {
-        ...state.singleSpot.SpotImages,
-        previewImage: previewImage ? previewImage.url : null,
-        smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
-      },
-    },
-  };
+        ...state,
+        singleSpot: {
+          ...singleSpot,
+          SpotImages: {
+            ...state.singleSpot.SpotImages,
+            previewImage: previewImage ? previewImage.url : null,
+            smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
+          },
+        },
+      };
     case CREATE_SPOT:
       return {...state, singleSpot: {...action.spot, SpotImages: {}}, [action.spot.id]: action.spot }
     case UPDATE_SPOT:
@@ -177,9 +177,15 @@ const spotsReducer = (state = intialState, action) => {
       const newState = {...state}
       delete newState[action.spotId]
       return newState
-    case CREATE_SPOT_IMAGES:
-      const previewImage1 = action.spotImgData?.find(image => image.preview === true)
-      return {...state, singleSpot: {...state.singleSpot, SpotImages: {...state.singleSpot.SpotImages, previewImage: previewImage1, smallImages: action.spotImgData?.filter((image) => image.preview === false)}}}
+    case CREATE_SPOT_IMAGE:
+      if(action.spotImgData.preview === true) {
+        const previewImage = action.spotImgData
+        return {...state, singleSpot: {...state.singleSpot, SpotImages: {...state.singleSpot.SpotImages, previewImage: previewImage}}}
+      } else {
+          const smallImage = action.spotImgData
+          return {...state, singleSpot: {...state.singleSpot, SpotImages: {...state.singleSpot.SpotImages, smallImages: state.singleSpot?.SpotImages?.smallImages ? [...state.singleSpot.SpotImages.smallImages, smallImage] : [smallImage]}}
+        }
+      }
     default:
       return state;
   }
