@@ -2,9 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom'
 import spotsReducer, { getSpotDetailThunk } from "../../store/spots";
-import SpotForm from "../CreateSpot/SpotForm";
-import ConfirmationModal from "../RemoveSpot/ConfirmationModal";
-import { deleteReviewThunk, loadAllReviewsThunk } from "../../store/reviews";
+import { loadAllReviewsThunk } from "../../store/reviews";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewFormModal from "../Reviews/CreateReviewFormModal";
@@ -28,7 +26,6 @@ export const SpotDetail = () => {
   }, [spot.numReviews]);
 
   useEffect(() => {
-
     dispatch(getSpotDetailThunk(spotId))
     dispatch(loadAllReviewsThunk(spotId)).catch(async(res) => {return})
   }, [dispatch, spotId])

@@ -56,11 +56,11 @@ const SpotForm = ({spot, formType}) => {
     } else if (formType === 'Create A New Spot') {
       try {
         const createdSpot = await dispatch(createSpot(newSpot));
-        dispatch(createSpotImageThunk(createdSpot.id, previewImage, true))
-        dispatch(createSpotImageThunk(createdSpot.id, imageUrlA, false))
-        dispatch(createSpotImageThunk(createdSpot.id, imageUrlB, false))
-        dispatch(createSpotImageThunk(createdSpot.id, imageUrlC, false))
-        dispatch(createSpotImageThunk(createdSpot.id, imageUrlD, false))
+        await dispatch(createSpotImageThunk(createdSpot.id, previewImage, true))
+        await dispatch(createSpotImageThunk(createdSpot.id, imageUrlA, false))
+        await dispatch(createSpotImageThunk(createdSpot.id, imageUrlB, false))
+        await dispatch(createSpotImageThunk(createdSpot.id, imageUrlC, false))
+        await dispatch(createSpotImageThunk(createdSpot.id, imageUrlD, false))
 
         if(createdSpot) {
           history.push(`/spots/${createdSpot.id}`);
@@ -180,42 +180,49 @@ const SpotForm = ({spot, formType}) => {
           />
           {errors.price && <p className="error-message">*{errors.price}*</p>}
         </section>
-        <section>
-          <h2>Liven up your spot with photos</h2>
-          <p>Submit a link to at least one photo to publish your spot</p>
-          <div className="update-create-form-input">
-            <input
-            type='url'
-            placeholder="Preview Image URL"
-            value={previewImage}
-            onChange={(e) => setPreviewImage(e.target.value)}
-            />
-            <input
+        {formType === 'Create A New Spot' ? (
+          <section>
+            <h2>Liven up your spot with photos</h2>
+            <p>Submit a link to at least one photo to publish your spot</p>
+            <div className="update-create-form-input">
+              <input
               type='url'
-              placeholder="Image URL"
-              value={imageUrlA}
-              onChange={(e) => setImageUrlA(e.target.value)}
+              placeholder="Preview Image URL"
+              value={previewImage}
+              onChange={(e) => setPreviewImage(e.target.value)}
+              required
               />
-            <input
-              type='url'
-              placeholder="Image URL"
-              value={imageUrlB}
-              onChange={(e) => setImageUrlB(e.target.value)}
+              <input
+                type='url'
+                placeholder="Image URL"
+                value={imageUrlA}
+                onChange={(e) => setImageUrlA(e.target.value)}
+                required
               />
-            <input
-              type='url'
-              placeholder="Image URL"
-              value={imageUrlC}
-              onChange={(e) => setImageUrlC(e.target.value)}
+              <input
+                type='url'
+                placeholder="Image URL"
+                value={imageUrlB}
+                onChange={(e) => setImageUrlB(e.target.value)}
+                required
               />
-            <input
-              type='url'
-              placeholder="Image URL"
-              value={imageUrlD}
-              onChange={(e) => setImageUrlD(e.target.value)}
-            />
-          </div>
-        </section>
+              <input
+                type='url'
+                placeholder="Image URL"
+                value={imageUrlC}
+                onChange={(e) => setImageUrlC(e.target.value)}
+                required
+              />
+              <input
+                type='url'
+                placeholder="Image URL"
+                value={imageUrlD}
+                onChange={(e) => setImageUrlD(e.target.value)}
+                required
+              />
+            </div>
+          </section>
+        ) : null }
       </div>
         <button className="create-update-button" onSubmit={handleSubmit} type='submit'>{formType === 'Create A New Spot' ? 'Create Spot' : 'Update Spot'}</button>
       </form>
