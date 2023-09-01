@@ -69,6 +69,7 @@ const SpotForm = ({spot, formType}) => {
         }
       } catch (error) {
         const data = await error.json();
+        console.log('ERROR:' , error)
         if (data && data.errors) {
           setErrors(data.errors);
         }

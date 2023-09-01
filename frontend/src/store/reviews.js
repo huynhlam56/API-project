@@ -74,7 +74,7 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REVIEWS:
       const reviewsState = {}
-      action.payload.reviews.Reviews.forEach((review) => {
+      action.payload.reviews.Reviews?.forEach((review) => {
         reviewsState[review.id] = review
       })
       return {spot: reviewsState}
