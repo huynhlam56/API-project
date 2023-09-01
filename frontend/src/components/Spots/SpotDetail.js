@@ -27,7 +27,7 @@ export const SpotDetail = () => {
       setCount(spot.numReviews);
     }
     if(spot?.avgStarRating !== undefined) {
-      setNewStarRating(spot.avgStarRating)
+      setNewStarRating(parseFloat(spot.avgStarRating).toFixed(1))
     }
   }, [spot?.numReviews, spot?.avgStarRating]);
 
