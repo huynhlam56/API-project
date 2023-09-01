@@ -29,7 +29,7 @@ function CreateReviewFormModal({ count, setCount, newStarRating, setNewStarRatin
       stars
       ))
       .then(() => {
-        const newAvgStarRating = ((spot.avgStarRating * spot.numReviews) + stars) / (spot.numReviews + 1);
+        const newAvgStarRating = parseFloat(((spot.avgStarRating * spot.numReviews) + stars) / (spot.numReviews + 1)).toFixed(2);
 
         setNewStarRating(newAvgStarRating);
         setCount(count + 1)
