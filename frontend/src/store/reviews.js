@@ -30,7 +30,10 @@ export const loadAllReviewsThunk = (spotId) => async dispatch => {
       return reviews
     }
   } catch(error) {
-    return
+    if ( error.status === 404) {
+      dispatch(loadReviewsAction(spotId, {}))
+      return {}
+    }
   }
 }
 

@@ -282,13 +282,13 @@ textarea {
     padding-top: 30px;
 }
 
-.manage-spots {
+/* .manage-spots {
     position: relative;
     display: inline-block;
     padding: 0px;
     width: 300px;
     height: 350px;
-}
+} */
 
 .manage-spot-name {
     font-size: 15px;

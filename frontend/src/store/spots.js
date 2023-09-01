@@ -172,7 +172,7 @@ const spotsReducer = (state = intialState, action) => {
     case CREATE_SPOT:
       return {...state, singleSpot: {...action.spot, SpotImages: {}}, [action.spot.id]: action.spot }
     case UPDATE_SPOT:
-      return {...state, [action.spot.id]: action.spot}
+      return {...state, singleSpot: {...action.spot, SpotImages: state.singleSpot.SpotImages, previewImage: state.singleSpot.previewImage}}
     case REMOVE_SPOT:
       const newState = {...state}
       delete newState[action.spotId]

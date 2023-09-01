@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSpot, createSpotImageThunk, updateSpot } from "../../store/spots";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { loadAllReviewsThunk } from "../../store/reviews";
 
 const SpotForm = ({spot, formType}) => {
-  const singleSpot = useSelector((state) => state.spots?.singleSpot?.SpotImages)
   const dispatch = useDispatch()
   const [address, setAddress] = useState(spot?.address)
   const [city, setCity] = useState(spot?.city);
@@ -23,6 +23,7 @@ const SpotForm = ({spot, formType}) => {
   const [imageUrlC, setImageUrlC] = useState('')
   const [imageUrlD, setImageUrlD] = useState('')
 
+  console.log(spot)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -61,6 +62,7 @@ const SpotForm = ({spot, formType}) => {
         await dispatch(createSpotImageThunk(createdSpot.id, imageUrlB, false))
         await dispatch(createSpotImageThunk(createdSpot.id, imageUrlC, false))
         await dispatch(createSpotImageThunk(createdSpot.id, imageUrlD, false))
+        await dispatch(loadAllReviewsThunk(createdSpot.id))
 
         if(createdSpot) {
           history.push(`/spots/${createdSpot.id}`);

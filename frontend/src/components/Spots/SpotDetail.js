@@ -17,19 +17,19 @@ export const SpotDetail = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user)
   const history = useHistory()
-  const [count, setCount] = useState(spot.numReviews);
-  const [newStarRating, setNewStarRating] = useState(spot.avgStarRating)
+  const [count, setCount] = useState(spot?.numReviews);
+  const [newStarRating, setNewStarRating] = useState(spot?.avgStarRating)
 
   console.log(newStarRating)
 
   useEffect(() => {
-    if (spot.numReviews !== undefined) {
+    if (spot?.numReviews !== undefined) {
       setCount(spot.numReviews);
     }
-    if(spot.avgStarRating !== undefined) {
+    if(spot?.avgStarRating !== undefined) {
       setNewStarRating(spot.avgStarRating)
     }
-  }, [spot.numReviews, spot.avgStarRating]);
+  }, [spot?.numReviews, spot?.avgStarRating]);
 
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export const SpotDetail = () => {
   }
 
 
-  if(Object.keys(spot).length === 0) return null
+  if(!spot || Object.keys(spot).length === 0) return null
 
   return (
     <div className="spot-detail-page">
