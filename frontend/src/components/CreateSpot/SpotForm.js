@@ -195,6 +195,7 @@ const SpotForm = ({spot, formType}) => {
               onChange={(e) => setPreviewImage(e.target.value)}
               required
               />
+              {errors.previewImage && <p className="error-message">*{errors.previewImage}*</p>}
               <input
                 type='url'
                 placeholder="Image URL"
@@ -202,6 +203,7 @@ const SpotForm = ({spot, formType}) => {
                 onChange={(e) => setImageUrlA(e.target.value)}
                 required
               />
+              {errors.imageUrlA && <p className="error-message">*{errors.imageUrlA}*</p>}
               <input
                 type='url'
                 placeholder="Image URL"
@@ -209,6 +211,7 @@ const SpotForm = ({spot, formType}) => {
                 onChange={(e) => setImageUrlB(e.target.value)}
                 required
               />
+              {errors.imageUrlB && <p className="error-message">*{errors.imageUrlB}*</p>}
               <input
                 type='url'
                 placeholder="Image URL"
@@ -216,6 +219,7 @@ const SpotForm = ({spot, formType}) => {
                 onChange={(e) => setImageUrlC(e.target.value)}
                 required
               />
+              {errors.imageUrlC && <p className="error-message">*{errors.imageUrlC}*</p>}
               <input
                 type='url'
                 placeholder="Image URL"
@@ -223,6 +227,7 @@ const SpotForm = ({spot, formType}) => {
                 onChange={(e) => setImageUrlD(e.target.value)}
                 required
               />
+              {errors.imageUrlD && <p className="error-message">*{errors.imageUrlD}*</p>}
             </div>
           </section>
         ) : null }
