@@ -20,7 +20,6 @@ export const SpotDetail = () => {
   const [count, setCount] = useState(spot?.numReviews);
   const [newStarRating, setNewStarRating] = useState(spot?.avgStarRating)
 
-  console.log(newStarRating)
 
   useEffect(() => {
     if (spot?.numReviews !== undefined) {
