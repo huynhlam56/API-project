@@ -163,7 +163,7 @@ const spotsReducer = (state = intialState, action) => {
         singleSpot: {
           ...singleSpot,
           SpotImages: {
-            ...state.singleSpot.SpotImages,
+            ...state.singleSpot?.SpotImages,
             previewImage: previewImage ? previewImage.url : null,
             smallImages: singleSpot.SpotImages.filter(image => !image.preview).map(image => image.url),
           },

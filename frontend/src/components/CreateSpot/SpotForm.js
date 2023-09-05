@@ -50,7 +50,7 @@ const SpotForm = ({spot, formType}) => {
         history.push(`/spots/${updatedSpot.id}`);
       } catch (error) {
         const data = await error.json();
-        if (data && data.errors) {
+        if (data && data.errors) { 
           setErrors(data.errors);
         }
       }
