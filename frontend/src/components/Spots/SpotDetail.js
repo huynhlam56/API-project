@@ -53,7 +53,7 @@ export const SpotDetail = () => {
           <h2>Be the first to write a review!</h2>
           <OpenModalButton
             buttonText="Post Your Review"
-            modalComponent={<CreateReviewFormModal />}
+            modalComponent={<CreateReviewFormModal count={count} setCount={setCount} newStarRating={newStarRating} setNewStarRating={setNewStarRating} />}
           />
         </div>
       )
