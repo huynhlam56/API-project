@@ -33,7 +33,7 @@ const ManageSpots = () => {
                         <div key={spot.id} >
                             <h1 className="manage-spot-name">{spot.name}</h1>
                             <img className='manage-spots-img' src={spot.previewImage} />
-                            <p>★ {spot.avgRating ? spot.avgRating : 'New'}</p>
+                            <p>★ {spot.avgRating ? (spot.avgRating).toFixed(1) : 'New'}</p>
                             <p>{spot.city}, {spot.state}</p>
                             <p>
                                 <strong>${spot.price} </strong>
