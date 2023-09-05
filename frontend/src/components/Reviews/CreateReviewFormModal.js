@@ -28,13 +28,14 @@ function CreateReviewFormModal({ count, setCount, newStarRating, setNewStarRatin
       review,
       stars
       ))
-      .then(() => {
-        const newAvgStarRating = parseFloat(((spot.avgStarRating * spot.numReviews) + stars) / (spot.numReviews + 1)).toFixed(1);
-        setNewStarRating(newAvgStarRating);
-        setCount(count + 1)
-        closeModal()
+    .then(() => {
+      const newAvgStarRating = parseFloat(((spot.avgStarRating * spot.numReviews) + stars) / (spot.numReviews + 1)).toFixed(1);
+      setNewStarRating(newAvgStarRating);
+      setCount(count + 1)
+      closeModal()
     })
     .catch(async(res) => {
+      console.error(res)
       const data = await res.json()
       if(data && data.errors) {
         setErrors(data.errors);
